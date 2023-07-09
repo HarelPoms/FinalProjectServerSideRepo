@@ -36,6 +36,6 @@ module.exports = {
   getAllUsers,
   getUserById,
   updateUser,
-  changeBusinessStatusById,
+  changeDoctorStatusById,
   deleteUserById
 };
