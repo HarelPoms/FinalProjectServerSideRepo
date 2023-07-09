@@ -1,0 +1,42 @@
+const mongoose = require("mongoose");
+const Image = require("./Image");
+
+const {
+  URL,
+  DEFAULT_STRING_SCHEMA_REQUIRED,
+} = require("./helpers/mongooseValidation");
+
+const medicineSchema = new mongoose.Schema({
+  title: DEFAULT_STRING_SCHEMA_REQUIRED,
+  subTitle: DEFAULT_STRING_SCHEMA_REQUIRED,
+  description: { ...DEFAULT_STRING_SCHEMA_REQUIRED, maxLength: 1024 },
+  email: {
+    type: String,
+    require: true,
+    match: RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/),
+    lowercase: true,
+    trim: true,
+    unique: true,
+  },
+  web: URL,
+  image: Image,
+  medicineNumber: {
+    type: Number,
+    minLength: 7,
+    maxLength: 7,
+    required: true,
+    trim: true,
+  },
+  likes: [String],
+  pharma_id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Medicine = mongoose.model("medicines", medicineSchema);
+
+module.exports = Medicine;
