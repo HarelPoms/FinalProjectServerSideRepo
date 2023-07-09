@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('final-project-server-side:server');
 var http = require('http');
+const chalk = require("chalk");
 
 /**
  * Get port from environment and store in Express.
@@ -87,4 +88,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(chalk.blue(`Server running on http://localhost:${port}/`));
 }
