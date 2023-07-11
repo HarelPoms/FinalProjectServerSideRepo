@@ -10,14 +10,6 @@ const medicineSchema = new mongoose.Schema({
   title: DEFAULT_STRING_SCHEMA_REQUIRED,
   subTitle: DEFAULT_STRING_SCHEMA_REQUIRED,
   description: { ...DEFAULT_STRING_SCHEMA_REQUIRED, maxLength: 1024 },
-  email: {
-    type: String,
-    require: true,
-    match: RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/),
-    lowercase: true,
-    trim: true,
-    unique: true,
-  },
   web: URL,
   image: Image,
   medicineNumber: {

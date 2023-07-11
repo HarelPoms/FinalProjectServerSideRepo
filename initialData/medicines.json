@@ -1,0 +1,17 @@
+[
+    {
+        "title": "Aspirin",
+        "subTitle": "Over the counter medicine",
+        "description": "For Headaches"
+    },
+    {
+        "title": "Acomol",
+        "subTitle": "Over the counter medicine",
+        "description": "For sore throat"
+    },
+    {
+        "title": "Symbicort",
+        "subTitle": "Prescription required",
+        "description": "For daily use for Astham treatment"
+    }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "name": {
+      "first": "John",
+      "last": "Grammarian"
+    },
+    "phone": "0500000000",
+    "email": "john@gmail.com",
+    "password": "Aa123456!",
+    "address": {
+      "country": "Spain",
+      "city": "Madrid",
+      "street": "El Cid",
+      "houseNumber": 255
+    }
+  },
+  {
+    "name": {
+      "first": "Friedrich",
+      "last": "Barbarossa"
+    },
+    "phone": "0500000000",
+    "email": "johnsinay@gmail.com",
+    "password": "Aa123456!",
+    "address": {
+      "country": "Germany",
+      "city": "Berlin",
+      "street": "Wilhelm",
+      "houseNumber": 12
+    },"isDoctor": true
+  },
+  {
+    "name": {
+      "first": "Moses",
+      "last": "Mendelson"
+    },
+    "phone": "0500000000",
+    "email": "moses@gmail.com",
+    "password": "Aa123456!",
+    "address": {
+      "country": "Israel",
+      "city": "Jerusalem",
+      "street": "Miriam",
+      "houseNumber": 255
+    },
+    "isAdmin": true
+  }
+]
