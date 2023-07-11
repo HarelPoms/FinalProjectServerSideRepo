@@ -20,6 +20,7 @@ const createMedicineTemplate = {
   }),
   medicineNumber: Joi.number().min(1000000).max(9999999).allow(""),
   pharma_id: Joi.string().hex().length(24),
+  prescription_required: Joi.boolean().allow("")
 };
 
 const createMedicineSchema = Joi.object({...createMedicineTemplate});

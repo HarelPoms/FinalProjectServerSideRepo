@@ -23,6 +23,7 @@ const medicineSchema = new mongoose.Schema({
   pharma_id: {
     type: mongoose.Schema.Types.ObjectId,
   },
+  prescription_required: { type: Boolean, default: false },
   createdAt: {
     type: Date,
     default: Date.now,
