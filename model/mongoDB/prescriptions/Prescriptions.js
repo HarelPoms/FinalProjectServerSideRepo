@@ -1,12 +1,21 @@
 const mongoose = require("mongoose");
 const Image = require("./Image");
 const prescriptionSubItem = require("./PrescriptionSubItem");
+const {DEFAULT_STRING_SCHEMA_REQUIRED} = require("./helpers/mongooseValidation");
 
 const prescriptionSchema = new mongoose.Schema({
     image: Image,
     medicineList: [prescriptionSubItem],
-    patientDetails  : {patientId: String, patientName: String},
-    doctorDetails : {type: String, required: true},
+    patientId : {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    patientName : DEFAULT_STRING_SCHEMA_REQUIRED,
+    doctorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    doctorName: DEFAULT_STRING_SCHEMA_REQUIRED,
     expiryDate : {
         type: Date,
         default: new Date(+new Date() + 30*24*60*60*1000),
