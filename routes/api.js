@@ -2,14 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 const usersRouter = require("./api/users");
-const medicineRouter = require("./api/medicine");
+const medicineRouter = require("./api/medicines");
+const pharmaRouter = require("./api/pharmas");
+const prescriptionRouter = require("./api/prescriptions");
 const errorHandler = require("../utils/errorHandlerService");
 
-//http://localhost:8181/api/cards
-router.use("/medicine", medicineRouter);
+//http://localhost:8181/api/medicines
+router.use("/medicines", medicineRouter);
 
-//http://localhost:8181/api/auth/
+//http://localhost:8181/api/users
 router.use("/users", usersRouter);
+
+//http://localhost:8181/api/pharmas
+router.use("/pharmas", pharmaRouter);
+
+//http://localhost:8181/api/prescriptions
+router.use("/prescriptions", prescriptionRouter);
 
 router.use((req, res, next) => {
     res.status(404).json({ err: "api not found" });
