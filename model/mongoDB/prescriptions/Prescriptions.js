@@ -20,6 +20,10 @@ const prescriptionSchema = new mongoose.Schema({
         type: Date,
         default: new Date(+new Date() + 30*24*60*60*1000),
     },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
     createdAt: {
         type: Date,
         default: Date.now,
