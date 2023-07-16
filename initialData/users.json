@@ -12,7 +12,8 @@
       "city": "Madrid",
       "street": "El Cid",
       "houseNumber": 255
-    }
+    },
+    "hmo": ""
   },
   {
     "name": {
@@ -27,7 +28,8 @@
       "city": "Berlin",
       "street": "Wilhelm",
       "houseNumber": 12
-    },"isDoctor": true
+    },"isDoctor": true,
+    "hmo": ""
   },
   {
     "name": {
@@ -43,6 +45,7 @@
       "street": "Miriam",
       "houseNumber": 255
     },
-    "isAdmin": true
+    "isAdmin": true,
+    "hmo": ""
   }
 ]

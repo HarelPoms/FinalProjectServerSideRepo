@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Roche",
+        "phone": "0500000000",
+        "email": "roche@gmail.com",
+        "password": "Aa123456!",
+        "address": {
+            "country": "France",
+            "city": "Paris",
+            "street": "De Gaul",
+            "houseNumber": 123
+        }
+    },
+    {
+        "name": "Pfizer",
+        "phone": "0500000000",
+        "email": "pfizer@gmail.com",
+        "password": "Aa123456!",
+        "address": {
+            "country": "Germany",
+            "city": "Berlin",
+            "street": "Wilhelm",
+            "houseNumber": 12
+        }
+    },
+    {
+        "name": "Johnson and Johnson",
+        "phone": "0500000000",
+        "email": "jandj@gmail.com",
+        "password": "Aa123456!",
+        "address": {
+            "country": "USA",
+            "state": "Florida",
+            "city": "Miami",
+            "street": "Ocean Drive",
+            "houseNumber": 187
+        }
+    }
+]
