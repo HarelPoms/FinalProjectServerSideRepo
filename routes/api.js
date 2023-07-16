@@ -5,6 +5,7 @@ const usersRouter = require("./api/users");
 const medicineRouter = require("./api/medicines");
 const pharmaRouter = require("./api/pharmas");
 const prescriptionRouter = require("./api/prescriptions");
+const hmosRouter = require("./api/hmos");
 const errorHandler = require("../utils/errorHandlerService");
 
 //http://localhost:8181/api/medicines
@@ -18,6 +19,9 @@ router.use("/pharmas", pharmaRouter);
 
 //http://localhost:8181/api/prescriptions
 router.use("/prescriptions", prescriptionRouter);
+
+//http://localhost:8181/api/prescriptions
+router.use("/hmos", hmosRouter);
 
 router.use((req, res, next) => {
     res.status(404).json({ err: "api not found" });
