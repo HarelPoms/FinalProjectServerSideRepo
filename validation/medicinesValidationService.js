@@ -1,32 +1,32 @@
 const config = require("config");
-const joiCardsValidation = require("./joi/medicineValidation");
+const joiMedicinesValidation = require("./joi/medicineValidation");
 
 const validatorOption = config.get("validatorOption");
 
 const createMedicineValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiCardsValidation.validateCreateMedicineSchema(userInput);
+        return joiMedicinesValidation.validateCreateMedicineSchema(userInput);
     }
     throw new Error("validator undefined");
 };
 
 const editMedicineValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiCardsValidation.validateEditMedicineSchema(userInput);
+        return joiMedicinesValidation.validateEditMedicineSchema(userInput);
     }
     throw new Error("validator undefined");
 }
 
 const medicineIdValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiCardsValidation.validateMedicineIdSchema(userInput);
+        return joiMedicinesValidation.validateMedicineIdSchema(userInput);
     }
     throw new Error("validator undefined");
 }
 
 const medicineNumberValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiCardsValidation.validateMedicineNumberSchema(userInput);
+        return joiMedicinesValidation.validateMedicineNumberSchema(userInput);
     }
     throw new Error("validator undefined");
 }

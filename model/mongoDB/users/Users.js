@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Name = require("./Name");
 const Address = require("./Address");
 const Image = require("./Image");
+const {HMO_SCHEMA_REQUIRED} = require("./HMO");
 
 const userSchema = new mongoose.Schema({
   name: Name,
@@ -29,6 +30,7 @@ const userSchema = new mongoose.Schema({
   address: Address,
   isAdmin: { type: Boolean, default: false },
   isDoctor: { type: Boolean, default: false },
+  HMO: HMO_SCHEMA_REQUIRED,
   createdAt: {
     type: Date,
     default: Date.now,

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Image = require("./Image");
 const prescriptionSubItem = require("./PrescriptionSubItem");
-const {DEFAULT_STRING_SCHEMA_REQUIRED} = require("./helpers/mongooseValidation");
+const {DEFAULT_STRING_SCHEMA_REQUIRED, HMO_SCHEMA_REQUIRED} = require("./helpers/mongooseValidation");
 
 const prescriptionSchema = new mongoose.Schema({
     image: Image,
@@ -24,6 +24,7 @@ const prescriptionSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    HMO: HMO_SCHEMA_REQUIRED,
     createdAt: {
         type: Date,
         default: Date.now,
