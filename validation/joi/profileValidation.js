@@ -35,6 +35,7 @@ const profileSchema = Joi.object({
         .required(),
     isAdmin: Joi.boolean().allow(""),
     isDoctor: Joi.boolean().required(),
+    HMO: Joi.string().hex().length(24)
 });
 
 const validateProfileSchema = (userInput) =>
