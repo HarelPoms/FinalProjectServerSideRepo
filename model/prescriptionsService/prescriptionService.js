@@ -2,7 +2,7 @@ const config = require("config");
 const prescriptionServiceMongo = require("../mongoDB/prescriptions/prescriptionsServiceMdb");
 const dbOption = config.get("dbOption");
 
-const createPrescrption = (prescriptionData) => {
+const createPrescription = (prescriptionData) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.createPrescription(prescriptionData);
     }
@@ -33,7 +33,7 @@ const deletePrescriptionById = (id) => {
 };
 
 module.exports = {
-    createPrescrption,
+    createPrescription,
     getAllPrescriptions,
     getPrescriptionById,
     updatePrescription,

@@ -2,19 +2,19 @@ const usersService = require("../model/usersService/usersService");
 const medicinesService = require("../model/medicinesService/medicinesService");
 const hmosService = require("../model/hmosService/hmosService");
 const pharmasService = require("../model/pharmasService/pharmaService");
-const perscriptionService = require("../model/prescriptionsService/prescriptionService");
+const prescriptionService = require("../model/prescriptionsService/prescriptionService");
 const hashService = require("../utils/hash/hashService");
 const normalizeUser = require("../model/usersService/helpers/normalizationUserService");
 const normalizeMedicine = require("../model/medicinesService/helpers/normalizationMedicineService");
 const normalizePharma = require("../model/pharmasService/helpers/normalizationPharmaService");
-const normalizePerscription = require("../model/prescriptionsService/helpers/normalizationPerscriptionService");
+const normalizePrescription = require("../model/prescriptionsService/helpers/normalizationPrescriptionService");
 
 const usersData = require("./users.json");
 const medicinesData = require("./medicines.json");
 const hmosData = require("./hmos.json");
 const pharmasData = require("./pharmas.json");
 
-const generatePerscription = async (medicine, patient, doctor, hmo) => {
+const generatePrescription = async (medicine, patient, doctor, hmo) => {
   let perscription = {
     medicineList: [
       {medicineId: medicine._id, medicineName: medicine.name, medicineUnits: 1, isActive: true},
@@ -77,9 +77,9 @@ const initialData = async () => {
       medicineCreationResult = await medicinesService.createMedicine(medicine);
     }
 
-    let perscription = await generatePerscription(medicineCreationResult, patient, doctor, hmo_id);
-    perscription = await normalizePerscription(perscription, patient);
-    let perscriptionCreationResult = await perscriptionService.createPrescrption(perscription);
+    let prescription = await generatePrescription(medicineCreationResult, patient, doctor, hmo_id);
+    prescription = await normalizePrescription(prescription, patient);
+    let prescriptionCreationResult = await prescriptionService.createPrescription(prescription);
 
   } catch (err) {
     console.log("err from initial", err);
