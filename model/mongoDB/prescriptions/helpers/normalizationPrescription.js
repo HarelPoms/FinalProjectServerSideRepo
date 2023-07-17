@@ -1,4 +1,4 @@
-const normalizePerscription = (perscription, patient, doctor) => {
+const normalizePerscription = (perscription, patient) => {
     if (!perscription.image) {
         perscription.image = {};
     }
@@ -10,10 +10,6 @@ const normalizePerscription = (perscription, patient, doctor) => {
     };
     return {
         ...perscription,
-        patientId: perscription.patientId || patient._id,
-        patientName: perscription.patientName || patient._name,
-        doctorId: perscription.doctorId || doctor._id,
-        doctorName: perscription.doctorName || doctor._name,
         expiryDate: perscription.expiryDate || new Date(+new Date() + 30*24*60*60*1000),
         isActive: perscription.isActive || true,
         HMO: perscription.HMO || patient.HMO
