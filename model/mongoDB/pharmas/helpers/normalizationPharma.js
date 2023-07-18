@@ -11,8 +11,8 @@ const normalizePharma = (pharmaData) => {
     return {
         ...pharmaData,
         address: {
-        ...pharmaData.address,
-        state: pharmaData.address.state || "",
+            ...pharmaData.address,
+            state: pharmaData.address.state || "",
         },
     };
 };

@@ -10,7 +10,14 @@ const hmosIdValidation = (userInput) => {
     throw new Error("validator undefined");
 }
 
+const hmoCreationValidation = (userInput) => {
+    if (validatorOption === "Joi") {
+        return joiHmosValidation.validateHMOCreationSchema(userInput);
+    }
+    throw new Error("validator undefined");
+}
+
 module.exports = {
-    hmosIdValidation
+    hmosIdValidation, hmoCreationValidation
 };
 
