@@ -1,11 +1,18 @@
-// JavaScript Document
 const express = require("express");
 const router = express.Router();
+const prescriptionServiceModel = require("../../model/prescriptionsService/prescriptionService");
+const prescriptionValidationService = require("../../validation/prescriptionValidationService");
+const prescriptionNormalizationService = require("../../model/prescriptionsService/helpers/normalizationPrescriptionService");
+const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
+const permissionsMiddleware = require("../../middlewares/permissionsMiddleware");
+const CustomError = require("../../utils/CustomError");
+const finalCheck = require("../../utils/finalResponseChecker");
+const initialValidationService = require("../../utils/initialValidationCheckers");
 
 //Get all prescriptions, authorization : all, return : All Prescriptions
-router.get("/", (req, res) => {
-    console.log("in pharmas get");
-    res.json({ msg: "in pharmas get" });
+router.get("/", loggedInMiddleware, permissionsMiddleware(true, true, false, true), async (req, res) => {
+    const allPerscriptions = await prescriptionServiceModel.getAllPrescriptions();
+    res.status(200).json(allPerscriptions);
 });
 
 //Get my prescriptions, authorization : Patient/Doctor, return : Array of users prescriptions
@@ -15,41 +22,39 @@ router.get("/my-prescriptions", (req,res) =>{
 })
 
 //Get prescription by id, authorization : all, Return : The prescription
-router.get("/:id", (req, res) => {
-    const idValue = 111;
-    console.log(req.params.id);
-    console.log("are ids equal ");
-    console.log(idValue == req.params.id);
-    console.log("in prescriptions get params");
-    res.json({ msg: "in prescriptions get params" });
+router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, true), async (req, res) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    const prescriptionFromDB = await prescriptionServiceModel.getPrescriptionById(req.params.id);
+    finalCheck(res, prescriptionFromDB, 400, "Pharma to get not found");
 });
 
 //Create new prescription (request), authorization : Patient, Doctor, Return : The new prescription
-router.post("/", (req,res) => {
-    console.log("in prescriptions post");
-    res.json({msg: "in prescriptions post"});
+router.post("/", loggedInMiddleware, permissionsMiddleware(true, false, false, false), async (req,res) => {
+    let newBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionId, req.body);
+    if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
+    let normalizedPrescription = await prescriptionNormalizationService(req.body, req.userData._id);
+    const newPrescription = await prescriptionServiceModel.createPrescription(normalizedPrescription);
+    finalCheck(res, newPrescription, 500, "Prescription not created");
 });
 
 //Edit prescription, authorization : Doctor who is in charge of it, Return : The edited prescription
-router.put("/:id", (req, res) => {
-    const idValue = 111;
-    console.log(req.params.id);
-    console.log("are ids equal ");
-    console.log(idValue == req.params.id);
-    console.log("in prescriptions put");
-    res.send("in prescriptions put");
-    //res.json({msg: "in medicines put"});
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, false), async (req, res) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let editBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.editPrescriptionValidation, req.body);
+    if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
+    let normalizedPrescription = await prescriptionNormalizationService(req.body, req.userData._id);
+    let editResult = await prescriptionServiceModel.updatePrescription(req.params.id, normalizedPrescription);
+    finalCheck(res, editResult, 400, "Prescription to edit not found");
 })
 
 //Delete prescription, Authorization : Admin, Doctor, return : The Deleted prescription
-router.delete("/:id", (req, res) => {
-    const idValue = 111;
-    console.log(req.params.id);
-    console.log("are ids equal ");
-    console.log(idValue == req.params.id);
-    console.log("in prescriptions delete");
-    res.send("in prescriptions delete");
-    //res.json({msg: "in medicines put"});
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, false), async (req, res) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    const prescriptionFromDB = await prescriptionServiceModel.deletePrescriptionById(req.params.id);
+    finalCheck(res, prescriptionFromDB, 400, "Could not find the Prescription to delete");
 })
 
 module.exports = router;
