@@ -55,6 +55,7 @@ router.post("/login", async (req,res) =>{
         _id: userData._id,
         isDoctor: userData.isDoctor,
         isAdmin: userData.isAdmin,
+        isPharma: false
     });
     res.status(200).json({ token });
 })

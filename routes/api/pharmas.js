@@ -34,8 +34,31 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, f
     finalCheck(res, newPharma, 500, "Pharma not created");
 });
 
-//Edit pharma, authorization : User who created the pharma, Return : The edited pharma
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true), async (req, res) => {
+//Login Pharma, authorization : all, return : Encrypted token
+router.post("/login", async (req,res) =>{
+    let loginBodyTest = await initialValidationService.initialJoiValidation(userValidationService.loginUserValidation, req.body);
+    if(!loginBodyTest[0]) return next(new CustomError(400,loginBodyTest[1]));
+    const userData = await pharmaServiceModel.getPharmaByEmail(req.body.email);
+    if (!userData) return next(new CustomError(400,"Invalid email"));
+    const isPasswordMatch = await hashService.cmpHash(
+        req.body.password,
+        userData.password
+    );
+    if (!isPasswordMatch)
+    {
+        return next(new CustomError(403,"Invalid password"));
+    }
+    const token = await generateToken({
+        _id: userData._id,
+        isDoctor: false,
+        isAdmin: false,
+        isPharma: true
+    });
+    res.status(200).json({ token });
+})
+
+//Edit pharma, authorization : The admin, Return : The edited pharma
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.pharmaValidation, req.body);

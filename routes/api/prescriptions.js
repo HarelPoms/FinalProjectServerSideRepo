@@ -5,12 +5,13 @@ const prescriptionValidationService = require("../../validation/prescriptionVali
 const prescriptionNormalizationService = require("../../model/prescriptionsService/helpers/normalizationPrescriptionService");
 const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
 const permissionsMiddleware = require("../../middlewares/permissionsMiddleware");
+const prescriptionsPermissionsMiddleware = require("../../middlewares/prescriptionsPermissionsMiddleware");
 const CustomError = require("../../utils/CustomError");
 const finalCheck = require("../../utils/finalResponseChecker");
 const initialValidationService = require("../../utils/initialValidationCheckers");
 
 //Get all prescriptions, authorization : all, return : All Prescriptions
-router.get("/", loggedInMiddleware, permissionsMiddleware(true, true, false, true), async (req, res) => {
+router.get("/", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, true, false), async (req, res) => {
     const allPerscriptions = await prescriptionServiceModel.getAllPrescriptions();
     res.status(200).json(allPerscriptions);
 });
@@ -22,7 +23,7 @@ router.get("/my-prescriptions", (req,res) =>{
 })
 
 //Get prescription by id, authorization : all, Return : The prescription
-router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, true), async (req, res) => {
+router.get("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, true, true), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const prescriptionFromDB = await prescriptionServiceModel.getPrescriptionById(req.params.id);
@@ -30,7 +31,7 @@ router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, 
 });
 
 //Create new prescription (request), authorization : Patient, Doctor, Return : The new prescription
-router.post("/", loggedInMiddleware, permissionsMiddleware(true, false, false, false), async (req,res) => {
+router.post("/", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, false, false), async (req,res) => {
     let newBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionId, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
     let normalizedPrescription = await prescriptionNormalizationService(req.body, req.userData._id);
@@ -39,7 +40,7 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(true, false, false, f
 });
 
 //Edit prescription, authorization : Doctor who is in charge of it, Return : The edited prescription
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, false), async (req, res) => {
+router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, true), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.editPrescriptionValidation, req.body);
@@ -49,8 +50,8 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, 
     finalCheck(res, editResult, 400, "Prescription to edit not found");
 })
 
-//Delete prescription, Authorization : Admin, Doctor, return : The Deleted prescription
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(true, true, false, false), async (req, res) => {
+//Delete prescription, Authorization : Admin, Doctor in charge, return : The Deleted prescription
+router.delete("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, true), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const prescriptionFromDB = await prescriptionServiceModel.deletePrescriptionById(req.params.id);
