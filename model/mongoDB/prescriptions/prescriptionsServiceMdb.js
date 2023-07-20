@@ -13,6 +13,14 @@ const getPrescriptionById = (id) => {
     return Prescription.findById(id);
 }
 
+const getPrescriptionsOfSpecificPatient = (id) => {
+    return Prescription.find({patientId: id});
+}
+
+const getPrescriptionsOfSpecificDoctor = (id) => {
+    return Prescription.find({doctorId: id});
+}
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     return Prescription.findByIdAndUpdate(id, prescriptionToUpdate, {new: true});
 };
@@ -27,10 +35,12 @@ const deletePrescriptionById = (id) => {
 
 
 module.exports = {
-  createPrescription,
-  getAllPrescriptionData,
-  getPrescriptionById,
-  updatePrescription,
-  changeActiveStatusById,
-  deletePrescriptionById
+    createPrescription,
+    getAllPrescriptionData,
+    getPrescriptionsOfSpecificPatient,
+    getPrescriptionsOfSpecificDoctor,
+    getPrescriptionById,
+    updatePrescription,
+    changeActiveStatusById,
+    deletePrescriptionById
 };

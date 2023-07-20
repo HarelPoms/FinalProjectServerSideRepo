@@ -4,7 +4,6 @@ const prescriptionServiceModel = require("../../model/prescriptionsService/presc
 const prescriptionValidationService = require("../../validation/prescriptionValidationService");
 const prescriptionNormalizationService = require("../../model/prescriptionsService/helpers/normalizationPrescriptionService");
 const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
-const permissionsMiddleware = require("../../middlewares/permissionsMiddleware");
 const prescriptionsPermissionsMiddleware = require("../../middlewares/prescriptionsPermissionsMiddleware");
 const CustomError = require("../../utils/CustomError");
 const finalCheck = require("../../utils/finalResponseChecker");
@@ -16,10 +15,16 @@ router.get("/", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, tru
     res.status(200).json(allPerscriptions);
 });
 
-//Get my prescriptions, authorization : Patient/Doctor, return : Array of users prescriptions
-router.get("/my-prescriptions", (req,res) =>{
-    console.log("in prescriptions get my prescriptions");
-    res.json({ msg: "in prescriptions get my prescriptions" });
+//Get my prescriptions (Doctor/Patient), authorization : Patient/Doctor, return : Array of users prescriptions
+router.get("/my-prescriptions", loggedInMiddleware, async (req,res) =>{
+    let myPrescriptions;
+    if(req.userData.isDoctor){
+        myPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor(req.userData._id);
+    }
+    else{
+        myPrescriptions = await prescriptionServiceModel.getPrescriptionsByPatient(req.userData._id);
+    }
+    finalCheck(res, myPrescriptions, 400, "My Prescriptions to get not found");
 })
 
 //Get prescription by id, authorization : all, Return : The prescription

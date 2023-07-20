@@ -20,6 +20,18 @@ const getPrescriptionById = (id) => {
     }
 };
 
+const getPrescriptionsByPatient = (id) => {
+    if (dbOption === "mongo") {
+        return prescriptionServiceMongo.getPrescriptionsOfSpecificPatient(id);
+    }
+};
+
+const getPrescriptionsByDoctor = (id) => {
+    if (dbOption === "mongo") {
+        return prescriptionServiceMongo.getPrescriptionsOfSpecificDoctor(id);
+    }
+};
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.updatePrescription(id, prescriptionToUpdate);
@@ -36,6 +48,8 @@ module.exports = {
     createPrescription,
     getAllPrescriptions,
     getPrescriptionById,
+    getPrescriptionsByPatient,
+    getPrescriptionsByDoctor,
     updatePrescription,
     deletePrescriptionById
 };
