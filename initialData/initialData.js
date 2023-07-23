@@ -15,7 +15,7 @@ const hmosData = require("./hmos.json");
 const pharmasData = require("./pharmas.json");
 
 const generatePrescription = async (medicine, patient, doctor, hmo) => {
-  let perscription = {
+  let prescription = {
     medicineList: [
       {medicineId: medicine._id, medicineName: medicine.name, medicineUnits: 1, isActive: true},
       {medicineId: medicine._id, medicineName: medicine.name, medicineUnits: 1, isActive: true},
@@ -28,7 +28,7 @@ const generatePrescription = async (medicine, patient, doctor, hmo) => {
     HMO: hmo.name
   }
 
-  return perscription;
+  return prescription;
 }
 
 const initialData = async () => {
