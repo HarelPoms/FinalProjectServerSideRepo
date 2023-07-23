@@ -22,10 +22,10 @@ const generatePrescription = async (medicine, patient, doctor, hmo) => {
       {medicineId: medicine._id, medicineName: medicine.name, medicineUnits: 1, isActive: true}
     ],
     patientId: patient._id,
-    patientName: patient.Name.first + patient.Name.last,
+    patientName: patient.name.first + patient.name.last,
     doctorId: doctor._id,
-    doctorName: doctor.Name.first + doctor.Name.last,
-    HMO: hmo.name
+    doctorName: doctor.name.first + doctor.name.last,
+    HMO: {id: hmo._id + "", name: hmo.name + ""}
   }
 
   return prescription;
@@ -45,10 +45,10 @@ const initialData = async () => {
     if (users.length) {
       return;
     }
-    let hmo_id = "";
+    let hmoForCreation = "";
     for(let hmo of hmosData){
       let creationResult = await hmosService.createHMO(hmo);
-      hmo_id = creationResult;
+      hmoForCreation = creationResult;
     }
     let pharma_id = "";
     for(let pharma of pharmasData){
@@ -60,7 +60,7 @@ const initialData = async () => {
     let registerResult, doctor, patient;
     for (let user of usersData) {
       user.password = await hashService.generateHash(user.password);
-      user.hmo = hmo_id._id + "";
+      user.HMO = {id: hmoForCreation._id + "", name: hmoForCreation.name + ""};
       user = normalizeUser(user);
       registerResult = await usersService.registerUser(user);
       if(registerResult.isDoctor){
@@ -77,7 +77,7 @@ const initialData = async () => {
       medicineCreationResult = await medicinesService.createMedicine(medicine);
     }
 
-    let prescription = await generatePrescription(medicineCreationResult, patient, doctor, hmo_id);
+    let prescription = await generatePrescription(medicineCreationResult, patient, doctor, hmoForCreation);
     prescription = await normalizePrescription(prescription, patient);
     let prescriptionCreationResult = await prescriptionService.createPrescription(prescription);
 

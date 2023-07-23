@@ -1,5 +1,8 @@
+const mongoose = require("mongoose");
+
 const HMO_SCHEMA_REQUIRED = {
-    name: {type: String, required: true, unique: true}
+    id: {type: mongoose.Schema.Types.ObjectId, required:true},
+    name: {type: String, required: true}
 }
 
 module.exports = {HMO_SCHEMA_REQUIRED};

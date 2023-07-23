@@ -1,6 +1,7 @@
 const config = require("config");
 const medicinesServiceMongo = require("../mongoDB/medicines/medicinesServiceMdb");
 const dbOption = config.get("dbOption");
+
 const createMedicine = (cardToSave) => {
   if (dbOption === "mongo") {
     return medicinesServiceMongo.createMedicine(cardToSave);

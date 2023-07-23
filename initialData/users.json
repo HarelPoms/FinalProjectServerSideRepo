@@ -13,7 +13,7 @@
       "street": "El Cid",
       "houseNumber": 255
     },
-    "hmo": ""
+    "HMO": ""
   },
   {
     "name": {
@@ -29,7 +29,7 @@
       "street": "Wilhelm",
       "houseNumber": 12
     },"isDoctor": true,
-    "hmo": ""
+    "HMO": ""
   },
   {
     "name": {
@@ -46,6 +46,6 @@
       "houseNumber": 255
     },
     "isAdmin": true,
-    "hmo": ""
+    "HMO": ""
   }
 ]

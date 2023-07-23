@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const HMOSchema = {
     name: {type: String, required: true, unique: true}
 }

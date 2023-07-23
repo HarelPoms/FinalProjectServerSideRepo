@@ -1,8 +1,8 @@
 const Medicine = require("./Medicine");
 
 const createMedicine = (MedicineToSave) => {
-  let Medicine = new Medicine(MedicineToSave);
-  return Medicine.save();
+  let CreatedMedicine = new Medicine(MedicineToSave);
+  return CreatedMedicine.save();
 };
 
 const getAllMedicines = () => {
