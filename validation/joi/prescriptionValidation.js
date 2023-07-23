@@ -20,7 +20,7 @@ const createPescriptionSchema = {
     doctorId: Joi.string().hex().length(24).required(),
     doctorName: Joi.string().required(),
     expiryDate: Joi.date().format('YYYY-MM-DD HH:mm'),
-    HMO: Joi.string().required(),
+    HMO: Joi.string().hex().length(24),
     isActive: Joi.boolean()
 }
 
