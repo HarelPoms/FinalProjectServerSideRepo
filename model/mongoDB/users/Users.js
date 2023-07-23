@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   address: Address,
   isAdmin: { type: Boolean, default: false },
   isDoctor: { type: Boolean, default: false },
-  HMO: HMO_SCHEMA_REQUIRED,
+  HMO: {type: mongoose.Schema.Types.ObjectId, required:true},
   createdAt: {
     type: Date,
     default: Date.now,

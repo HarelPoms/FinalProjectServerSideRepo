@@ -24,7 +24,7 @@ const prescriptionSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    HMO: HMO_SCHEMA_REQUIRED,
+    HMO: {type: mongoose.Schema.Types.ObjectId, required:true},
     createdAt: {
         type: Date,
         default: Date.now,

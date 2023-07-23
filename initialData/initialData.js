@@ -25,7 +25,7 @@ const generatePrescription = async (medicine, patient, doctor, hmo) => {
     patientName: patient.name.first + " " + patient.name.last,
     doctorId: doctor._id + "" ,
     doctorName: doctor.name.first + " " + doctor.name.last,
-    HMO: {id: hmo._id + "", name: hmo.name + ""}
+    HMO: hmo._id + ""
   }
 
   return prescription;
@@ -60,7 +60,7 @@ const initialData = async () => {
     let registerResult, doctor, patient;
     for (let user of usersData) {
       user.password = await hashService.generateHash(user.password);
-      user.HMO = {id: hmoForCreation._id + "", name: hmoForCreation.name + ""};
+      user.HMO = hmoForCreation._id + "";
       user = normalizeUser(user);
       registerResult = await usersService.registerUser(user);
       if(registerResult.isDoctor){
