@@ -1,5 +1,5 @@
 const PrescriptionSubItem = {
-    medicineId: String,
+    medicineId: Number,
     medicineName: String,
     medicineUnits: Number,
     isActive: {
