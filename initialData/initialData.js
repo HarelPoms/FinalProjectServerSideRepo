@@ -14,16 +14,12 @@ const medicinesData = require("./medicines.json");
 const hmosData = require("./hmos.json");
 const pharmasData = require("./pharmas.json");
 
-const generatePrescriptionSubItem = async (medicine) => {
-  return {PrescriptionSubItem : {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}};
-}
-
 const generatePrescription = async (medicine, patient, doctor, hmo) => {
   let prescription = {
     medicineList: [
-      {PrescriptionSubItem : {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}},
-      {PrescriptionSubItem : {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}},
-      {PrescriptionSubItem : {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}}
+      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true},
+      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true},
+      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}
     ],
     patientId: patient._id + "",
     patientName: patient.name.first + " " + patient.name.last,

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Image = require("./Image");
-const prescriptionSubItem = require("./PrescriptionSubItem");
+const {PrescriptionSubItem} = require("./PrescriptionSubItem");
 const {DEFAULT_STRING_SCHEMA_REQUIRED, HMO_SCHEMA_REQUIRED} = require("./helpers/mongooseValidation");
 
 const prescriptionSchema = new mongoose.Schema({
     image: Image,
-    medicineList: [prescriptionSubItem],
+    medicineList: [PrescriptionSubItem],
     patientId : {
         type: mongoose.Schema.Types.ObjectId,
         required: true
