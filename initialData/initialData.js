@@ -22,9 +22,7 @@ const generatePrescription = async (medicine, patient, doctor, hmo) => {
       {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}
     ],
     patientId: patient._id + "",
-    patientName: patient.name.first + " " + patient.name.last,
     doctorId: doctor._id + "" ,
-    doctorName: doctor.name.first + " " + doctor.name.last,
     HMO: hmo._id + ""
   }
 
