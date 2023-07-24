@@ -82,8 +82,8 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false
 router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
-    let businessStatusUpdateResult = await usersServiceModel.changeDoctorStatusById(req.params.id);
-    finalCheck(res, businessStatusUpdateResult, 400, "User to update not found");
+    let doctorStatusUpdateResult = await usersServiceModel.changeDoctorStatusById(req.params.id);
+    finalCheck(res, doctorStatusUpdateResult, 400, "User to update not found");
 })
 
 //Delete User, Authorization : The registered User or Admin, return : The Deleted User
