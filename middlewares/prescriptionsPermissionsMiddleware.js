@@ -23,7 +23,7 @@ const userCheckIfSameDoctorOrPatient = async (prescriptionId ,loggedInId, isDoct
     }
 }
 
-const prescriptionsPermissionsMiddleware = (isDoctor, isAdmin ,isSameDoctorOrPatient) => {
+const prescriptionsPermissionsMiddleware = (isDoctor, isAdmin, isPatient ,isSameDoctorOrPatient) => {
     return (req, res, next) => {
         if (!req.userData) {
             throw new CustomError("must provide userData");
@@ -32,6 +32,9 @@ const prescriptionsPermissionsMiddleware = (isDoctor, isAdmin ,isSameDoctorOrPat
             return next();
         }
         if (isAdmin === req.userData.isAdmin && isAdmin === true) {
+            return next();
+        }
+        if (isPatient === req.userData.isPatient && isPatient === true){
             return next();
         }
         if (isSameDoctorOrPatient === true){
