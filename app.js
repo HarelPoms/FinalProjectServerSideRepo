@@ -1,14 +1,14 @@
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const loggerAdaptor = require("./utils/logger/loggerAdaptor");
 const initialData = require("./initialData/initialData");
 
 const apiRouter = require("./routes/api");
 
 var app = express();
 
-app.use(logger('dev'));
+app.use(loggerAdaptor());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
