@@ -11,14 +11,14 @@ const createPrescriptionValidation = (userInput) => {
 
 const editPrescriptionValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiPrescriptionsValidation.validateEditPerscriptionSchema(userInput);
+        return joiPrescriptionsValidation.validateEditPrescriptionSchema(userInput);
     }
     throw new Error("validator undefined");
 }
 
 const PrescriptionIdValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiPrescriptionsValidation.validatePerscriptionIdSchema(userInput);
+        return joiPrescriptionsValidation.validatePrescriptionIdSchema(userInput);
     }
     throw new Error("validator undefined");
 }
