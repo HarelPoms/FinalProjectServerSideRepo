@@ -20,7 +20,7 @@ router.use("/pharmas", pharmaRouter);
 //http://localhost:8181/api/prescriptions
 router.use("/prescriptions", prescriptionRouter);
 
-//http://localhost:8181/api/prescriptions
+//http://localhost:8181/api/hmos
 router.use("/hmos", hmosRouter);
 
 router.use((req, res, next) => {

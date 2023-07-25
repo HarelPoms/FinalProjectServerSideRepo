@@ -33,7 +33,7 @@ router.get("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, 
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const prescriptionFromDB = await prescriptionServiceModel.getPrescriptionById(req.params.id);
-    finalCheck(res, prescriptionFromDB, 400, "Pharma to get not found");
+    finalCheck(res, prescriptionFromDB, 400, "Prescription to get not found");
 });
 
 //Create new prescription (request which can become effective prescription), authorization : Patient, Doctor, Return : The new prescription
@@ -54,7 +54,19 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     let normalizedPrescription = await prescriptionNormalizationService(req.body, await userServiceModel.getUserById(req.userData._id));
     let editResult = await prescriptionServiceModel.updatePrescription(req.params.id, normalizedPrescription);
     finalCheck(res, editResult, 400, "Prescription to edit not found");
-})
+});
+
+router.patch("/:prescriptionId/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {
+    console.log("IN PUT SUBITEM SWITCH");
+    console.log(req.params.prescriptionId);
+    console.log(req.params.subItemId);
+    let prescriptionIdTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.prescriptionId);
+    if(!prescriptionIdTest[0]) return next(new CustomError(400, prescriptionIdTest[1]));
+    let subItemIdTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.subItemId);
+    if(!subItemIdTest[0]) return next(new CustomError(400, subItemIdTest[1]));
+    let subItemStatusSwitchResult = await prescriptionServiceModel.changePrescriptionSubItemActiveStatus(req.params.prescriptionId, req.params.subItemId);
+    finalCheck(res, subItemStatusSwitchResult, 400, "Prescription sub item active status not flipped");
+});
 
 //Delete prescription, Authorization : Admin, Doctor in charge, return : The Deleted prescription
 router.delete("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, true, false, true), async (req, res,next) => {
@@ -62,6 +74,6 @@ router.delete("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(fal
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const prescriptionFromDB = await prescriptionServiceModel.deletePrescriptionById(req.params.id);
     finalCheck(res, prescriptionFromDB, 400, "Could not find the Prescription to delete");
-})
+});
 
 module.exports = router;

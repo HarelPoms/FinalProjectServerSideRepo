@@ -32,6 +32,18 @@ const getPrescriptionsByDoctor = (id) => {
     }
 };
 
+const changePrescriptionActiveStatusById = (id) => {
+    if (dbOption === "mongo") {
+        return prescriptionServiceMongo.changeActiveStatusById(id);
+    }
+};
+
+const changePrescriptionSubItemActiveStatus = (prescriptionId, subItemId) => {
+    if (dbOption === "mongo"){
+        return prescriptionServiceMongo.updatePrescriptionSubItem(prescriptionId, subItemId);
+    }
+}
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.updatePrescription(id, prescriptionToUpdate);
@@ -50,6 +62,8 @@ module.exports = {
     getPrescriptionById,
     getPrescriptionsByPatient,
     getPrescriptionsByDoctor,
+    changePrescriptionActiveStatusById,
+    changePrescriptionSubItemActiveStatus,
     updatePrescription,
     deletePrescriptionById
 };

@@ -25,6 +25,10 @@ const updatePrescription = (id, prescriptionToUpdate) => {
     return Prescription.findByIdAndUpdate(id, prescriptionToUpdate, {new: true});
 };
 
+const updatePrescriptionSubItem = (prescriptionId, subItemId) => {
+    return Prescription.findOneAndUpdate({ "_id": prescriptionId, "medicineList._id": subItemId },{ "$set": { "medicineList.$.isActive": { $not : "medicineList.$.isActive" } } } , {new:true} )
+}
+
 const changeActiveStatusById = (id) => {
     return Prescription.findByIdAndUpdate(id, [{ $set: { isActive: { $not: "$isActive" } } }], {new:true});
 }
@@ -41,6 +45,7 @@ module.exports = {
     getPrescriptionsOfSpecificDoctor,
     getPrescriptionById,
     updatePrescription,
+    updatePrescriptionSubItem,
     changeActiveStatusById,
     deletePrescriptionById
 };
