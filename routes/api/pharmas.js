@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req,res) => {
     let newBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.newPharmaValidation, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
-    let normalizedPharma = await pharmaNormalizationService(req.body, req.userData._id);
+    let normalizedPharma = await pharmaNormalizationService(req.body);
     const newPharma = await pharmaServiceModel.registerPharma(normalizedPharma);
     finalCheck(res, newPharma, 500, "Pharma not created");
 });
