@@ -18,7 +18,7 @@ router.get("/", loggedInMiddleware, permissionsMiddleware(false, true, false, fa
 });
 
 //Get specific user, authorization : Admin or registered user, Return : User
-router.get("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res) => {
+router.get("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let wantedUser = await usersServiceModel.getUserById(req.params.id);
@@ -26,7 +26,7 @@ router.get("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,tr
 });
 
 //Register User, authorization : all, return : registered user, needs unique email
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
     let registerBodyTest = await initialValidationService.initialJoiValidation(usersValidationService.registerUserValidation, req.body);
     if(!registerBodyTest[0]) return next(new CustomError(400,registerBodyTest[1]));
     let checkIfEmailIsTaken = await usersServiceModel.getUserByEmail(req.body.email);
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
 });
 
 //Login User, authorization : all, return : Encrypted token
-router.post("/login", async (req,res) =>{
+router.post("/login", async (req,res, next) =>{
     let loginBodyTest = await initialValidationService.initialJoiValidation(usersValidationService.loginUserValidation, req.body);
     if(!loginBodyTest[0]) return next(new CustomError(400,loginBodyTest[1]));
     const userData = await usersServiceModel.getUserByEmail(req.body.email);
@@ -61,7 +61,7 @@ router.post("/login", async (req,res) =>{
 })
 
 //Edit user, authorization : The registered user, Return : The edited user
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false, true), async (req, res) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false, true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(usersValidationService.profileUserValidation, req.body);
@@ -79,7 +79,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false
 })
 
 //Change is Doctor status, authorization : The registered user, Return : The User
-router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res) => {
+router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let doctorStatusUpdateResult = await usersServiceModel.changeDoctorStatusById(req.params.id);
@@ -87,7 +87,7 @@ router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,
 })
 
 //Delete User, Authorization : The registered User or Admin, return : The Deleted User
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true), async (req, res) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let deletedUser = await usersServiceModel.deleteUserById(req.params.id);

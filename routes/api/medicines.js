@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 //Get medicine by id, authorization : all, Return : The medicine
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const medicineFromDB = await medicineServiceModel.getMedicineById(req.params.id);
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //Create new medicine, authorization : Pharma User, Return : The new medicine
-router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, true, false),  async (req,res) => {
+router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, true, false),  async (req,res, next) => {
     let newMedicineBodyTest = await initialValidationService.initialJoiValidation(medicineValidationService.createMedicineValidation, req.body);
     if(!newMedicineBodyTest[0]) return next(new CustomError(400,newMedicineBodyTest[1]));
     let normalMedicine = await medicineNormalizationService(req.body, req.userData._id);
@@ -33,7 +33,7 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, true, f
 });
 
 //Edit medicine, authorization : User who created the medicine, Return : The edited medicine
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, true, false), async (req, res) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(medicineValidationService.editMedicineValidation, req.body);
@@ -44,7 +44,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, true,
 })
 
 //Like medicine, authorization : The User is registered, Return : The Liked medicine
-router.patch("/:id", loggedInMiddleware, async (req, res) => {
+router.patch("/:id", loggedInMiddleware, async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const medicineFromDB = await medicineServiceModel.getMedicineById(req.params.id);
@@ -69,7 +69,7 @@ router.patch("/:id", loggedInMiddleware, async (req, res) => {
 })
 
 //Delete medicine, Authorization : The User who created the medicine, or admin, return : The Deleted medicine
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, true, false), async (req, res) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const medicineFromDB = await medicineServiceModel.deleteMedicine(req.params.id);

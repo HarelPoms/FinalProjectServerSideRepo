@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 //Get HMO by id, authorization : all, Return : The HMO
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const hmoFromDB = await hmoServiceModel.getHMOById(req.params.id);
@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //Create new HMO, authorization : Admin User, Return : The new HMO
-router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false) ,async (req,res) => {
+router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false) ,async (req,res, next) => {
     let newHMOBodyTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmoCreationValidation, req.body);
     if(!newHMOBodyTest[0]) return next(new CustomError(400,newHMOBodyTest[1]));
     const newHmo = await hmoServiceModel.createHMO(req.body);
@@ -31,7 +31,7 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, f
 });
 
 //Edit HMO, authorization : Admin, Return : The edited HMO
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmoCreationValidation, req.body);
@@ -41,7 +41,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
 })
 
 //Delete HMO, Authorization : Admin, return : The Deleted HMO
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const hmoFromDB = await hmoServiceModel.deleteHMO(req.params.id);
