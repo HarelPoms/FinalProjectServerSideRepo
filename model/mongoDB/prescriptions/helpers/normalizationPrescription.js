@@ -1,19 +1,20 @@
-const normalizePerscription = (perscription, patient) => {
-    if (!perscription.image) {
-        perscription.image = {};
+const normalizePrescription = (prescription, patient) => {
+    console.log(patient.HMO);
+    if (!prescription.image) {
+        prescription.image = {};
     }
-    perscription.image = {
+    prescription.image = {
         url:
-        perscription.image.url ||
+        prescription.image.url ||
         "https://cdn.pixabay.com/photo/2015/11/30/19/08/drug-1070943_1280.jpg",
-        alt: perscription.image.alt || "Default Perscription Picture",
+        alt: prescription.image.alt || "Default Prescription Picture",
     };
     return {
-        ...perscription,
-        expiryDate: perscription.expiryDate || new Date(+new Date() + 30*24*60*60*1000),
-        isActive: perscription.isActive || true,
-        HMO: perscription.HMO || patient.HMO
+        ...prescription,
+        expiryDate: prescription.expiryDate || new Date(+new Date() + 30*24*60*60*1000),
+        isActive: prescription.isActive || true,
+        HMO: prescription.HMO || (patient.HMO + "")
     };
 };
 
-module.exports = normalizePerscription;
+module.exports = normalizePrescription;
