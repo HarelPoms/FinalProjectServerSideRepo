@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
 
 //Create new pharma, authorization : Admin User, Return : The new pharma
 router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req,res) => {
-    let newBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.pharmaValidation, req.body);
+    let newBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.newPharmaValidation, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
     let normalizedPharma = await pharmaNormalizationService(req.body, req.userData._id);
     const newPharma = await pharmaServiceModel.registerPharma(normalizedPharma);
@@ -61,7 +61,7 @@ router.post("/login", async (req,res) =>{
 router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
-    let editBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.pharmaValidation, req.body);
+    let editBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.editPharmaValidation, req.body);
     if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
     let normalizedPharma = await pharmaNormalizationService(req.body, req.userData._id);
     let editResult = await pharmaServiceModel.updatePharma(req.params.id, normalizedPharma);

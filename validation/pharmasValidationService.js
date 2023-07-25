@@ -3,13 +3,20 @@ const joiPharmaValidation = require("./joi/pharmasValidations");
 
 const validatorOption = config.get("validatorOption");
 
-const pharmaValidation = (userInput) => {
+const newPharmaValidation = (userInput) => {
     if (validatorOption === "Joi") {
-        return joiPharmaValidation.validatePharmaSchema(userInput);
+        return joiPharmaValidation.validateNewPharmaSchema(userInput);
     }
     throw new Error("validator undefined");
 };
 
+const editPharmaValidation = (userInput) => {
+    if (validatorOption === "Joi") {
+        return joiPharmaValidation.validateEditPharmaSchema(userInput);
+    }
+    throw new Error("validator undefined");
+}
+
 module.exports = {
-    pharmaValidation
+    newPharmaValidation, editPharmaValidation
 };
