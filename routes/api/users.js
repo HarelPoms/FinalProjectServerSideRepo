@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const usersServiceModel = require("../../model/usersService/usersService");
 const usersValidationService = require("../../validation/usersValidationService");
-const normalizeUser = require("../../model/usersService/helpers/normalizationUserService");
+const normalizeUserService = require("../../model/usersService/helpers/normalizationUserService");
 const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
 const permissionsMiddleware = require("../../middlewares/permissionsMiddleware");
 const CustomError = require("../../utils/CustomError");
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     if(!registerBodyTest[0]) return next(new CustomError(400,registerBodyTest[1]));
     let checkIfEmailIsTaken = await usersServiceModel.getUserByEmail(req.body.email);
     if(checkIfEmailIsTaken) return next(new CustomError(400, "Email Already Taken"));
-    let normalizedUser = await normalizeUser(req.body);
+    let normalizedUser = await normalizeUserService.normalizeCreatedUserService(req.body);
     normalizedUser.password = await hashService.generateHash(normalizedUser.password);
     let createdUser = await usersServiceModel.registerUser(normalizedUser);
     finalCheck(res, createdUser, 500, "Registration went wrong");
@@ -70,7 +70,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false
         let checkIfEmailIsTaken = await usersServiceModel.getUserByEmail(req.body.email);
         if(checkIfEmailIsTaken) return next(new CustomError(400, "Email Already Taken"));
     }
-    let normalizedEditedUser = normalizeUser(req.body);
+    let normalizedEditedUser = normalizeUserService.normalizeEditedUserService(req.body);
     if(normalizedEditedUser.password){
         normalizedEditedUser.password = await hashService.generateHash(normalizedEditedUser.password);
     }

@@ -50,6 +50,7 @@ const initialData = async () => {
     }
     let pharma_id = "";
     for(let pharma of pharmasData){
+      pharma.password = await hashService.generateHash(pharma.password);
       pharma = await normalizePharma(pharma);
       let registerResult = await pharmasService.registerPharma(pharma);
       pharma_id = registerResult._id + "";

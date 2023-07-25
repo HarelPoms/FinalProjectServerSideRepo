@@ -2,10 +2,16 @@ const config = require("config");
 const normalizationUserMongo = require("../../mongodb/users/helpers/normalizationUser");
 const dbOption = config.get("dbOption");
 
-const normalizationUserService = (userData) => {
+const normalizeCreatedUserService = (userData) => {
   if (dbOption === "mongo") {
-    return normalizationUserMongo(userData);
+    return normalizationUserMongo.normalizeCreatedUser(userData);
   }
 };
 
-module.exports = normalizationUserService;
+const normalizeEditedUserService = (userData) => {
+  if (dbOption === "mongo") {
+    return normalizationUserMongo.normalizeEditedUser(userData);
+  }
+};
+
+module.exports = {normalizeCreatedUserService, normalizeEditedUserService};

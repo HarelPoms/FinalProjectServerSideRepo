@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req,res) => {
     let newBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.newPharmaValidation, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
-    let normalizedPharma = await pharmaNormalizationService(req.body);
+    let normalizedPharma = await pharmaNormalizationService.normalizationCreatePharmaService(req.body);
     const newPharma = await pharmaServiceModel.registerPharma(normalizedPharma);
     finalCheck(res, newPharma, 500, "Pharma not created");
 });
@@ -63,7 +63,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.editPharmaValidation, req.body);
     if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
-    let normalizedPharma = await pharmaNormalizationService(req.body, req.userData._id);
+    let normalizedPharma = await pharmaNormalizationService.normalizationEditPharmaService(req.body);
     let editResult = await pharmaServiceModel.updatePharma(req.params.id, normalizedPharma);
     finalCheck(res, editResult, 400, "Pharma to edit not found");
 })
