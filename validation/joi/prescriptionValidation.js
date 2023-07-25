@@ -1,7 +1,7 @@
 const Joi = require("joi").extend(require('@joi/date')); 
 
 let prescriptionSubItemJoiSchema = Joi.object().keys({
-    medicineId: Joi.string().hex().length(24).required(),
+    medicineId: Joi.number().min(1000000).max(9999999).allow(""),
     medicineName: Joi.string().required(),
     medicineUnits: Joi.number().integer().min(1).max(5).required(),
     isActive: Joi.boolean().required()
@@ -18,7 +18,7 @@ const createPrescriptionSchema = Joi.object({
     patientId: Joi.string().hex().length(24).required(),
     doctorId: Joi.string().hex().length(24).required(),
     expiryDate: Joi.date().format('YYYY-MM-DD HH:mm'),
-    HMO: Joi.string().hex().length(24).required(),
+    HMO: Joi.string().hex().length(24),
     isActive: Joi.boolean()
 });
 
