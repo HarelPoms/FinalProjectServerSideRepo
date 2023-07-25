@@ -1,5 +1,4 @@
 const normalizePrescription = (prescription, patient) => {
-    console.log(patient.HMO);
     if (!prescription.image) {
         prescription.image = {};
     }
