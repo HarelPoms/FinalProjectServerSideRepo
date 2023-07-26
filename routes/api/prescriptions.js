@@ -40,6 +40,8 @@ router.get("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, 
 router.post("/", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, false, true, false), async (req,res,next) => {
     let newBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.createPrescriptionValidation, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
+    let userTest = await userServiceModel.getUserById(req.userData._id);
+    if(!userTest) return next(new CustomError(400,"User to relate to prescription not provided"));
     let normalizedPrescription = await prescriptionNormalizationService(req.body, await userServiceModel.getUserById(req.userData._id));
     const newPrescription = await prescriptionServiceModel.createPrescription(normalizedPrescription);
     finalCheck(res, newPrescription, 500, "Prescription not created");
