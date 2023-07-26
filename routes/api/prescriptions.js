@@ -56,15 +56,17 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     finalCheck(res, editResult, 400, "Prescription to edit not found");
 });
 
-router.patch("/:prescriptionId/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {
-    console.log("IN PUT SUBITEM SWITCH");
-    console.log(req.params.prescriptionId);
-    console.log(req.params.subItemId);
-    let prescriptionIdTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.prescriptionId);
-    if(!prescriptionIdTest[0]) return next(new CustomError(400, prescriptionIdTest[1]));
+//Flip isActive status of subitem within a prescription
+router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let subItemIdTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.subItemId);
     if(!subItemIdTest[0]) return next(new CustomError(400, subItemIdTest[1]));
-    let subItemStatusSwitchResult = await prescriptionServiceModel.changePrescriptionSubItemActiveStatus(req.params.prescriptionId, req.params.subItemId);
+    let prescriptionExistenceCheck = await prescriptionServiceModel.getPrescriptionById(req.params.id);
+    if(prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
+    let subItemExistenceCheck = await prescriptionServiceModel.getPrescriptionWithSubItem(req.params.subItemId);
+    if(!subItemExistenceCheck) return next(new CustomError(400, "No subitem with this id exists"));
+    let subItemStatusSwitchResult = await prescriptionServiceModel.changePrescriptionSubItemActiveStatus(req.params.id, req.params.subItemId);
     finalCheck(res, subItemStatusSwitchResult, 400, "Prescription sub item active status not flipped");
 });
 

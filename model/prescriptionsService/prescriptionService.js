@@ -44,6 +44,12 @@ const changePrescriptionSubItemActiveStatus = (prescriptionId, subItemId) => {
     }
 }
 
+const getPrescriptionWithSubItem = (subItemId) => {
+    if (dbOption === "mongo"){
+        return prescriptionServiceMongo.getPrescriptionWithSubItem(subItemId);
+    }
+}
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.updatePrescription(id, prescriptionToUpdate);
@@ -62,6 +68,7 @@ module.exports = {
     getPrescriptionById,
     getPrescriptionsByPatient,
     getPrescriptionsByDoctor,
+    getPrescriptionWithSubItem,
     changePrescriptionActiveStatusById,
     changePrescriptionSubItemActiveStatus,
     updatePrescription,
