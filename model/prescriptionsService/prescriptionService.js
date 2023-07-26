@@ -40,7 +40,7 @@ const changePrescriptionActiveStatusById = (id) => {
 
 const changePrescriptionSubItemActiveStatus = (prescriptionId, subItemId) => {
     if (dbOption === "mongo"){
-        return prescriptionServiceMongo.updatePrescriptionSubItem(prescriptionId, subItemId);
+        return prescriptionServiceMongo.updatePrescriptionSubItemIsActiveStatus(prescriptionId, subItemId);
     }
 }
 

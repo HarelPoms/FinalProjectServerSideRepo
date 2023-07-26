@@ -29,7 +29,7 @@ const updatePrescription = (id, prescriptionToUpdate) => {
     return Prescription.findByIdAndUpdate(id, prescriptionToUpdate, {new: true});
 };
 
-const updatePrescriptionSubItem = async (prescriptionId, subItemId) => {
+const updatePrescriptionSubItemIsActiveStatus = async (prescriptionId, subItemId) => {
     let prescriptionWithSubItem = await Prescription.findOne({ medicineList: { $elemMatch: { _id: subItemId } } }, { "medicineList.$": 1 });
     return Prescription.findOneAndUpdate({ "_id": prescriptionId, "medicineList._id": subItemId },{ "$set": { "medicineList.$.isActive": !prescriptionWithSubItem.medicineList[0].isActive } } , {new:true} );
 }
@@ -50,7 +50,7 @@ module.exports = {
     getPrescriptionsOfSpecificDoctor,
     getPrescriptionWithSubItem,
     updatePrescription,
-    updatePrescriptionSubItem,
+    updatePrescriptionSubItemIsActiveStatus,
     changeActiveStatusById,
     deletePrescriptionById
 };

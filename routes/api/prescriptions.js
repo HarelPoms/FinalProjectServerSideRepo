@@ -52,7 +52,7 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     let editBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.editPrescriptionValidation, req.body);
     if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
     let prescriptionExistenceCheck = await prescriptionServiceModel.getPrescriptionById(req.params.id);
-    if(prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
+    if(!prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
     let normalizedPrescription = await prescriptionNormalizationService(req.body, await userServiceModel.getUserById(req.userData._id));
     let editResult = await prescriptionServiceModel.updatePrescription(req.params.id, normalizedPrescription);
     finalCheck(res, editResult, 400, "Prescription to edit not found");
@@ -65,7 +65,7 @@ router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMidd
     let subItemIdTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.subItemId);
     if(!subItemIdTest[0]) return next(new CustomError(400, subItemIdTest[1]));
     let prescriptionExistenceCheck = await prescriptionServiceModel.getPrescriptionById(req.params.id);
-    if(prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
+    if(!prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
     let subItemExistenceCheck = await prescriptionServiceModel.getPrescriptionWithSubItem(req.params.subItemId);
     if(!subItemExistenceCheck) return next(new CustomError(400, "No subitem with this id exists"));
     let subItemStatusSwitchResult = await prescriptionServiceModel.changePrescriptionSubItemActiveStatus(req.params.id, req.params.subItemId);
