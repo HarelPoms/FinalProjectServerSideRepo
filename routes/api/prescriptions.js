@@ -51,6 +51,8 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.editPrescriptionValidation, req.body);
     if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
+    let prescriptionExistenceCheck = await prescriptionServiceModel.getPrescriptionById(req.params.id);
+    if(prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
     let normalizedPrescription = await prescriptionNormalizationService(req.body, await userServiceModel.getUserById(req.userData._id));
     let editResult = await prescriptionServiceModel.updatePrescription(req.params.id, normalizedPrescription);
     finalCheck(res, editResult, 400, "Prescription to edit not found");
