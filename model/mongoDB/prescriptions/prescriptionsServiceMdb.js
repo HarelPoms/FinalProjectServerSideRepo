@@ -42,7 +42,6 @@ const deletePrescriptionById = (id) => {
     return Prescription.findByIdAndDelete(id);
 }
 
-
 module.exports = {
     createPrescription,
     getAllPrescriptionData,
