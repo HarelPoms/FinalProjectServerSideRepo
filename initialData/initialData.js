@@ -4,9 +4,9 @@ const hmosService = require("../model/hmosService/hmosService");
 const pharmasService = require("../model/pharmasService/pharmaService");
 const prescriptionService = require("../model/prescriptionsService/prescriptionService");
 const hashService = require("../utils/hash/hashService");
-const normalizeUser = require("../model/usersService/helpers/normalizationUserService");
+const normalizeUserService = require("../model/usersService/helpers/normalizationUserService");
 const normalizeMedicine = require("../model/medicinesService/helpers/normalizationMedicineService");
-const normalizePharma = require("../model/pharmasService/helpers/normalizationPharmaService");
+const normalizePharmaService = require("../model/pharmasService/helpers/normalizationPharmaService");
 const normalizePrescription = require("../model/prescriptionsService/helpers/normalizationPrescriptionService");
 
 const usersData = require("./users.json");
@@ -51,7 +51,7 @@ const initialData = async () => {
     let pharma_id = "";
     for(let pharma of pharmasData){
       pharma.password = await hashService.generateHash(pharma.password);
-      pharma = await normalizePharma(pharma);
+      pharma = await normalizePharmaService.normalizationCreatePharmaService(pharma);
       let registerResult = await pharmasService.registerPharma(pharma);
       pharma_id = registerResult._id + "";
     }
@@ -60,7 +60,7 @@ const initialData = async () => {
     for (let user of usersData) {
       user.password = await hashService.generateHash(user.password);
       user.HMO = hmoForCreation._id + "";
-      user = normalizeUser(user);
+      user = normalizeUserService.normalizeCreatedUserService(user);
       registerResult = await usersService.registerUser(user);
       if(registerResult.isDoctor){
         doctor = registerResult;

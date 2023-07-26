@@ -34,6 +34,20 @@ const updatePrescriptionSubItemIsActiveStatus = async (prescriptionId, subItemId
     return Prescription.findOneAndUpdate({ "_id": prescriptionId, "medicineList._id": subItemId },{ "$set": { "medicineList.$.isActive": !prescriptionWithSubItem.medicineList[0].isActive } } , {new:true} );
 }
 
+const removeSubItemFromPrescription = async (prescriptionId, subItemId) => {
+    let prescriptionSubItemList = await Prescription.findOne({ medicineList: { $elemMatch: { _id: subItemId } } });
+    let filteredSubItemArray = [];
+    for(let i = 0; i < prescriptionSubItemList.medicineList.length; i++){
+        if(!((prescriptionSubItemList.medicineList[i]._id + "") == subItemId)){
+            filteredSubItemArray.push(prescriptionSubItemList.medicineList[i]);
+        }
+    }
+    let medList = {
+        "medicineList": filteredSubItemArray
+    }
+    return updatePrescription(prescriptionId, medList);
+}
+
 const changeActiveStatusById = (id) => {
     return Prescription.findByIdAndUpdate(id, [{ $set: { isActive: { $not: "$isActive" } } }], {new:true});
 }
@@ -52,5 +66,6 @@ module.exports = {
     updatePrescription,
     updatePrescriptionSubItemIsActiveStatus,
     changeActiveStatusById,
+    removeSubItemFromPrescription,
     deletePrescriptionById
 };

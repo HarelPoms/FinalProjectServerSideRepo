@@ -1,2 +1,9 @@
 Wednesday 26/7/2023 10:43:34 GMT+03:00 Asia/Jerusalem PATCH /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f55356600412 400 27.918 ms
 Wednesday 26/7/2023 10:55:51 GMT+03:00 Asia/Jerusalem PATCH /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 25.392 ms
+Wednesday 26/7/2023 15:19:35 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 62.415 ms
+Wednesday 26/7/2023 15:21:11 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 50.755 ms
+Wednesday 26/7/2023 15:21:44 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 53.275 ms
+Wednesday 26/7/2023 15:22:23 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 78.393 ms
+Wednesday 26/7/2023 15:23:39 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 48.018 ms
+Wednesday 26/7/2023 15:24:25 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 83.593 ms
+Wednesday 26/7/2023 15:24:48 GMT+03:00 Asia/Jerusalem DELETE /api/prescriptions/64bf912fccb0f553566004d9/64bf912fccb0f553566004db 400 45.399 ms

@@ -50,6 +50,12 @@ const getPrescriptionWithSubItem = (subItemId) => {
     }
 }
 
+const removeSubItemFromPrescription = (prescriptionId, subItemId) => {
+    if (dbOption === "mongo"){
+        return prescriptionServiceMongo.removeSubItemFromPrescription(prescriptionId, subItemId);
+    }
+}
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.updatePrescription(id, prescriptionToUpdate);
@@ -69,6 +75,7 @@ module.exports = {
     getPrescriptionsByPatient,
     getPrescriptionsByDoctor,
     getPrescriptionWithSubItem,
+    removeSubItemFromPrescription,
     changePrescriptionActiveStatusById,
     changePrescriptionSubItemActiveStatus,
     updatePrescription,
