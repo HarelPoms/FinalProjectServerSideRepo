@@ -15,7 +15,7 @@ const checkIfPharmaOwner = async (pharmaId, medicineId, res, next) => {
     if (medicineData.pharma_id == pharmaId) {
       next();
     } else {
-      res.status(401).json({ msg: "You are not the pharma user who owns the card" });
+      res.status(401).json({ msg: "You are not the pharma user who owns the medicine" });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -42,9 +42,9 @@ const userCheckIfTheSameUser = async (loggedInUserId, idOfUserDataToAccess, res,
 }
 
 /*
-  isBiz = every biz
+  isDoctor = every Doctor
   isAdmin = is admin
-  isPharmaOwner = biz owner
+  isPharmaOwner = is pharma owner of medicine
   isSameUserApiCheck = To check if the user requesting access to user data, is the same user
 */
 const permissionsMiddleware = (isDoctor, isAdmin, isPharmaOwner, isSameUserApiCheck) => {
