@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usersServiceModel = require("../../model/usersService/usersService");
+const prescriptionServiceModel = require("../../model/prescriptionsService/prescriptionService");
 const usersValidationService = require("../../validation/usersValidationService");
 const normalizeUserService = require("../../model/usersService/helpers/normalizationUserService");
 const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
@@ -90,6 +91,9 @@ router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,
 router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let prescriptionsOfPatient = await prescriptionServiceModel.getPrescriptionsByPatient(req.params.id);
+    let prescriptionsOfDoctor = await prescriptionServiceModel.getPrescriptionsByDoctor(req.params.id);
+    if(prescriptionsOfPatient || prescriptionsOfDoctor) return next(new CustomError(400, "User has attached prescriptions, cannot delete"));
     let deletedUser = await usersServiceModel.deleteUserById(req.params.id);
     finalCheck(res, deletedUser, 400, "User to delete not found");
 })

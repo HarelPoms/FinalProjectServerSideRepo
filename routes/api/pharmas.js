@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pharmaServiceModel = require("../../model/pharmasService/pharmaService");
+const medicineServiceModel = require("../../model/medicinesService/medicinesService");
 const pharmaValidationService = require("../../validation/pharmasValidationService");
 const userValidationService = require("../../validation/usersValidationService");
 const pharmaNormalizationService = require("../../model/pharmasService/helpers/normalizationPharmaService");
@@ -71,7 +72,9 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
 //Delete pharma, Authorization : Admin, return : The Deleted pharma
 router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
-    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]))
+    const medicinesOfPharma = await medicineServiceModel.getMedicinesCreatedByUser(req.params.id);
+    if(medicinesOfPharma) return next(new CustomError(400, "Can't delete pharm with linked medicine"));
     const pharmaFromDB = await pharmaServiceModel.deletePharmaById(req.params.id);
     finalCheck(res, pharmaFromDB, 400, "Could not find the Pharma to delete");
 })
