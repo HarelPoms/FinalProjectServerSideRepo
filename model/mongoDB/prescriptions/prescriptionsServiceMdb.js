@@ -25,6 +25,10 @@ const getPrescriptionWithSubItem = (subItemId) => {
     return Prescription.findOne({ medicineList: { $elemMatch: { _id: subItemId } } }, { "medicineList.$": 1 });
 };
 
+const getPrescriptionsWithSpecificHMO = (id) => {
+    return Prescription.find({HMO: id});
+}
+
 const updatePrescription = (id, prescriptionToUpdate) => {
     return Prescription.findByIdAndUpdate(id, prescriptionToUpdate, {new: true});
 };
@@ -63,6 +67,7 @@ module.exports = {
     getPrescriptionsOfSpecificPatient,
     getPrescriptionsOfSpecificDoctor,
     getPrescriptionWithSubItem,
+    getPrescriptionsWithSpecificHMO,
     updatePrescription,
     updatePrescriptionSubItemIsActiveStatus,
     changeActiveStatusById,

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const hmoServiceModel = require("../../model/hmosService/hmosService");
+const usersServiceModel = require("../../model/usersService/usersService");
+const prescriptionsServiceModel = require("../../model/prescriptionsService/prescriptionService");
 const hmoValidationService = require("../../validation/hmosValidationService");
 const loggedInMiddleware = require("../../middlewares/checkLoggedInMiddleware");
 const permissionsMiddleware = require("../../middlewares/permissionsMiddleware");
@@ -44,6 +46,9 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
 router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let prescriptionsWithThisHmo = await prescriptionsServiceModel.getPrescriptionsWithSpecificHMO(req.params.id);
+    let usersWithThisHmo = await usersServiceModel.getUsersWithSpecificHMO(req.params.id);
+    if(prescriptionsWithThisHmo || usersWithThisHmo) return next(new CustomError(400, "Can't delete HMO with other data attached to it"));
     const hmoFromDB = await hmoServiceModel.deleteHMO(req.params.id);
     finalCheck(res, hmoFromDB, 400, "Could not find the HMO to delete");
 });

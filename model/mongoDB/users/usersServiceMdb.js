@@ -13,6 +13,10 @@ const getAllUsers = () => {
   return User.find();
 };
 
+const getAllUsersWithSpecificHMO = (id) => {
+  return User.find({HMO: id});
+}
+
 const getUserById = (id) => {
   return User.findById(id);
 }
@@ -34,6 +38,7 @@ module.exports = {
   registerUser,
   getUserByEmail,
   getAllUsers,
+  getAllUsersWithSpecificHMO,
   getUserById,
   updateUser,
   changeDoctorStatusById,

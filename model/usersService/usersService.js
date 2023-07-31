@@ -26,6 +26,12 @@ const getUserById = (id) => {
   }
 };
 
+const getUsersWithSpecificHMO = (id) => {
+  if (dbOption === "mongo") {
+    return usersServiceMongo.getAllUsersWithSpecificHMO(id);
+  }
+}
+
 const updateUser = (id, userToUpdate) => {
   if (dbOption === "mongo") {
     return usersServiceMongo.updateUser(id, userToUpdate);
@@ -49,6 +55,7 @@ module.exports = {
   getUserByEmail,
   getAllUsers,
   getUserById,
+  getUsersWithSpecificHMO,
   updateUser,
   changeDoctorStatusById,
   deleteUserById
