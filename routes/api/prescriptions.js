@@ -60,6 +60,14 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     finalCheck(res, editResult, 400, "Prescription to edit not found");
 });
 
+//Flip isActive status of prescription
+router.patch("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async(req,res,next) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let statusSwitchResult = await prescriptionServiceModel.changePrescriptionActiveStatusById(req.params.id);
+    finalCheck(res, statusSwitchResult, 400, "Prescription active status not flipped");
+});
+
 //Flip isActive status of subitem within a prescription
 router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
@@ -74,7 +82,7 @@ router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMidd
     finalCheck(res, subItemStatusSwitchResult, 400, "Prescription sub item active status not flipped");
 });
 
-//Delete prescription, Authorization : Admin, Doctor in charge, return : The Deleted prescription
+//Delete prescription, Authorization : Admin, Doctor/Patient in charge, return : The Deleted prescription
 router.delete("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, true, false, true), async (req, res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
@@ -82,6 +90,7 @@ router.delete("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(fal
     finalCheck(res, prescriptionFromDB, 400, "Could not find the Prescription to delete");
 });
 
+//Delete one of the items in a prescription
 router.delete("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,true,false,true), async (req,res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));

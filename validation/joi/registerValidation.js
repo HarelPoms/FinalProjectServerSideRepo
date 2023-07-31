@@ -43,7 +43,7 @@ const registerSchema = Joi.object({
     .required(),
   isAdmin: Joi.boolean().allow(""),
   isDoctor: Joi.boolean().required(),
-  HMO: Joi.string().hex().length(24)
+  HMO: Joi.string().hex().length(24).required()
 });
 
 const validateRegisterSchema = (userInput) =>
