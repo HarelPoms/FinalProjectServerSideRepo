@@ -28,6 +28,17 @@ router.get("/my-prescriptions", loggedInMiddleware, async (req,res) =>{
     finalCheck(res, myPrescriptions, 400, "My Prescriptions to get not found");
 })
 
+router.get("/unassigned-prescriptions", loggedInMiddleware, async (req,res,next) => {
+    let unassignedPrescriptions;
+    if(req.userData.isDoctor){
+        unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor("");
+    }
+    else{
+        return next(new CustomError(400, "You do not have access to this"));
+    }
+    finalCheck(res, unassignedPrescriptions, 400, "Unassigned Prescriptions to get not found");
+})
+
 //Get prescription by id, authorization : all, Return : The prescription
 router.get("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, true, true, true), async (req, res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);

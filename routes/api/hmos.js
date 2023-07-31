@@ -38,7 +38,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
     if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
     let editResult = await hmoServiceModel.updateHMO(req.params.id, req.body);
     finalCheck(res, editResult, 400, "HMO to edit not found");
-})
+});
 
 //Delete HMO, Authorization : Admin, return : The Deleted HMO
 router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
@@ -46,6 +46,6 @@ router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, fal
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const hmoFromDB = await hmoServiceModel.deleteHMO(req.params.id);
     finalCheck(res, hmoFromDB, 400, "Could not find the HMO to delete");
-})
+});
 
 module.exports = router;
