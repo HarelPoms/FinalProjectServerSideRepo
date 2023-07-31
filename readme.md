@@ -713,6 +713,49 @@ Response :
 ```
 
 ** Fill in full list of attributes **
+``` bash  
+image (object containing):
+    URL : 
+        --  string
+        --  optional
+        --  if included must be a valid URL address.
+    alt : 
+        -- string
+        -- required
+        -- min 2
+        -- max 256
+medicineList (Array containing objects, each object is formatted thus):
+    medicineId:
+        --Number
+        --required
+        --length 7
+    medicineName:
+        --String
+        --Required
+        --To have record of name of medicine at time of prescription
+    medicineUnits:
+        --Number
+        --Required
+        --Min 1, Max 5
+    isActive:
+        --Boolean
+        --Optional
+        --Default:True
+patientId:
+    --Hex String of length 24
+    --Must be of real patient
+    --Required
+doctorId:
+    --Hex String of length 24
+    --Must be of real doctor
+    --Optional
+isActive:
+    --Boolean
+    --Optional
+HMO: 
+    --ObjectId
+    --Optional
+```
 
 -- request must include token in its header of either the patient who is in the prescription, or the doctor who is in the prescription.
 -- The prescription id provided must be valid and that of an existing prescription.
