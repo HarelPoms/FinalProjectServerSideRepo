@@ -1,6 +1,6 @@
 const generateMedicineNumber = require("./generateMedicineNumber");
 
-const normalizeMedicine = async (medicine, userId) => {
+const normalizeMedicine = async (medicine, pharmaId) => {
   if (!medicine.image) {
     medicine.image = {};
   }
@@ -13,7 +13,7 @@ const normalizeMedicine = async (medicine, userId) => {
   return {
     ...medicine,
     medicineNumber: medicine.medicineNumber || (await generateMedicineNumber()),
-    user_id: medicine.user_id || userId,
+    pharma_id : medicine.pharma_id || pharmaId
   };
 };
 
