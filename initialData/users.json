@@ -1,8 +1,8 @@
 [
   {
     "name": {
-      "first": "John",
-      "last": "Grammarian"
+      "firstName": "John",
+      "lastName": "Grammarian"
     },
     "phone": "0500000000",
     "email": "john@gmail.com",
@@ -17,8 +17,8 @@
   },
   {
     "name": {
-      "first": "Friedrich",
-      "last": "Barbarossa"
+      "firstName": "Friedrich",
+      "lastName": "Barbarossa"
     },
     "phone": "0500000000",
     "email": "friedrichbarb@gmail.com",
@@ -33,8 +33,8 @@
   },
   {
     "name": {
-      "first": "Moses",
-      "last": "Mendelson"
+      "firstName": "Moses",
+      "lastName": "Mendelson"
     },
     "phone": "0500000000",
     "email": "moses@gmail.com",
