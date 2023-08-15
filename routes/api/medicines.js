@@ -15,6 +15,12 @@ router.get("/", async (req, res) => {
     res.status(200).json(allMedicines);
 });
 
+//Get all meds favorited by the logged in user
+router.get("/my-fav-meds", loggedInMiddleware, async(req,res,next) => {
+    const favMedsOfUser = await medicineServiceModel.getMedicinesLikedByUser(req.userData._id);
+    finalCheck(res, favMedsOfUser, 500, "Fav Medicines not created");
+});
+
 //Get medicine by id, authorization : all, Return : The medicine
 router.get("/:id", async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
@@ -53,13 +59,13 @@ router.patch("/:id", loggedInMiddleware, async (req, res, next) => {
         const medicineLikes = medicineFromDB.likes.find((id) => id === userIdStr);
         if(!medicineLikes){
             medicineFromDB.likes.push(userIdStr);
-            medicineAfterSave = await cardsServiceModel.updateCard(req.params.id, medicineFromDB);
+            medicineAfterSave = await medicineServiceModel.updateMedicine(req.params.id, medicineFromDB);
             res.status(200).json(medicineAfterSave);
         }
         else{
             const likesFiltered = medicineFromDB.likes.filter((id) => id !== userIdStr);
             medicineFromDB.likes = likesFiltered;
-            medicineAfterSave = await cardsServiceModel.updateCard(req.params.id, medicineFromDB);
+            medicineAfterSave = await medicineServiceModel.updateMedicine(req.params.id, medicineFromDB);
             res.status(200).json(medicineAfterSave);
         }
     }

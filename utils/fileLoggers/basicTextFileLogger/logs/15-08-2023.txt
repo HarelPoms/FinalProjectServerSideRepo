@@ -1,0 +1,11 @@
+Tuesday 15/8/2023 12:55:19 GMT+03:00 Asia/Jerusalem GET /api/cards/get-my-fav-cards 404 2.175 ms
+Tuesday 15/8/2023 12:55:54 GMT+03:00 Asia/Jerusalem GET /api/cards/get-my-fav-cards 404 1.673 ms
+Tuesday 15/8/2023 13:06:37 GMT+03:00 Asia/Jerusalem GET /api/medicines/get-my-fav-cards 400 9.399 ms
+Tuesday 15/8/2023 13:07:37 GMT+03:00 Asia/Jerusalem GET /api/medicines/get-my-fav-cards 400 2.574 ms
+Tuesday 15/8/2023 13:08:58 GMT+03:00 Asia/Jerusalem GET /api/medicines/get-my-fav-cards 400 14.662 ms
+Tuesday 15/8/2023 13:11:23 GMT+03:00 Asia/Jerusalem GET /api/medicines/get-my-fav-cards 400 2.952 ms
+Tuesday 15/8/2023 13:16:02 GMT+03:00 Asia/Jerusalem GET /api/medicines/my-fav-cards 400 7.046 ms
+Tuesday 15/8/2023 13:16:57 GMT+03:00 Asia/Jerusalem GET /api/medicines/my-fav-meds 400 54.000 ms
+Tuesday 15/8/2023 13:17:00 GMT+03:00 Asia/Jerusalem GET /api/medicines/my-fav-meds 400 20.702 ms
+Tuesday 15/8/2023 13:18:11 GMT+03:00 Asia/Jerusalem GET /api/medicines/my-fav-meds 400 4.322 ms
+Tuesday 15/8/2023 13:21:29 GMT+03:00 Asia/Jerusalem PATCH /api/cards/card-like/64da177c04054a7b36e8e327 404 2.801 ms
