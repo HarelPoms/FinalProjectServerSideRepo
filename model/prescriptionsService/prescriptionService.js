@@ -38,6 +38,12 @@ const changePrescriptionActiveStatusById = (id) => {
     }
 };
 
+const changePrescriptionApprovedStatusById = (id) => {
+    if (dbOption === "mongo"){
+        return prescriptionServiceMongo.changeApprovedStatusById(id);
+    }
+}
+
 const changePrescriptionSubItemActiveStatus = (prescriptionId, subItemId) => {
     if (dbOption === "mongo"){
         return prescriptionServiceMongo.updatePrescriptionSubItemIsActiveStatus(prescriptionId, subItemId);
@@ -84,6 +90,7 @@ module.exports = {
     getPrescriptionsWithSpecificHMO,
     removeSubItemFromPrescription,
     changePrescriptionActiveStatusById,
+    changePrescriptionApprovedStatusById,
     changePrescriptionSubItemActiveStatus,
     updatePrescription,
     deletePrescriptionById

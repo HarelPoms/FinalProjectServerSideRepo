@@ -31,7 +31,7 @@ router.get("/my-prescriptions", loggedInMiddleware, async (req,res) =>{
 router.get("/unassigned-prescriptions", loggedInMiddleware, async (req,res,next) => {
     let unassignedPrescriptions;
     if(req.userData.isDoctor){
-        unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor("");
+        unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor(null);
     }
     else{
         return next(new CustomError(400, "You do not have access to this"));
@@ -78,6 +78,14 @@ router.patch("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(fals
     let statusSwitchResult = await prescriptionServiceModel.changePrescriptionActiveStatusById(req.params.id);
     finalCheck(res, statusSwitchResult, 400, "Prescription active status not flipped");
 });
+
+//flip isApproved status of prescription
+router.patch("/flipApproved/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, false, true), async(req,res,next) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let statusSwitchResult = await prescriptionServiceModel.changePrescriptionApprovedStatusById(req.params.id);
+    finalCheck(res, statusSwitchResult, 400, "Prescription approved status not flipped");
+})
 
 //Flip isActive status of subitem within a prescription
 router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {

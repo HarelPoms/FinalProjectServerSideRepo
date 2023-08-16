@@ -12,12 +12,15 @@ const prescriptionSchema = new mongoose.Schema({
     },
     doctorId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        default: ""
+        default: null
     },
     expiryDate : {
         type: Date,
         default: new Date(+new Date() + 30*24*60*60*1000),
+    },
+    isApproved: {
+        type: Boolean,
+        default:false
     },
     isActive: {
         type: Boolean,

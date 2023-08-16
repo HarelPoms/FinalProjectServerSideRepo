@@ -56,6 +56,10 @@ const changeActiveStatusById = (id) => {
     return Prescription.findByIdAndUpdate(id, [{ $set: { isActive: { $not: "$isActive" } } }], {new:true});
 }
 
+const changeApprovedStatusById = (id) => {
+    return Prescription.findByIdAndUpdate(id, [{ $set: { isApproved: { $not: "$isApproved" } } }], {new:true});
+}
+
 const deletePrescriptionById = (id) => {
     return Prescription.findByIdAndDelete(id);
 }
@@ -71,6 +75,7 @@ module.exports = {
     updatePrescription,
     updatePrescriptionSubItemIsActiveStatus,
     changeActiveStatusById,
+    changeApprovedStatusById,
     removeSubItemFromPrescription,
     deletePrescriptionById
 };

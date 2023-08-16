@@ -34,7 +34,7 @@ const prescriptionsPermissionsMiddleware = (isDoctor, isAdmin, isPatient ,isSame
         if (isAdmin === req.userData.isAdmin && isAdmin === true) {
             return next();
         }
-        if (isPatient === req.userData.isPatient && isPatient === true){
+        if (!req.userData.isAdmin && !req.userData.isPharma && !req.userData.isDoctor && isPatient === true){
             return next();
         }
         if (isSameDoctorOrPatient === true){

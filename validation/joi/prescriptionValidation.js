@@ -18,7 +18,6 @@ const createPrescriptionSchema = Joi.object({
     patientId: Joi.string().hex().length(24).required(),
     doctorId: Joi.string().hex().length(24),
     expiryDate: Joi.date().format('YYYY-MM-DD HH:mm'),
-    HMO: Joi.string().hex().length(24).required(),
     isActive: Joi.boolean()
 });
 
@@ -31,7 +30,7 @@ const editPrescriptionSchema = Joi.object({
     }),
     medicineList: Joi.array().items(prescriptionSubItemJoiSchema),
     patientId: Joi.string().hex().length(24),
-    doctorId: Joi.string().hex().length(24),
+    doctorId: Joi.string().hex().length(24).allow(""),
     expiryDate: Joi.date().format('YYYY-MM-DD HH:mm'),
     HMO: Joi.string().hex().length(24),
     isActive: Joi.boolean()
