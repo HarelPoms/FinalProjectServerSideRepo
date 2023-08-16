@@ -26,6 +26,12 @@ const getUserById = (id) => {
   }
 };
 
+const getUserFullNameById = (id) => {
+  if (dbOption === "mongo"){
+    return usersServiceMongo.getUserFullNameOnly(id);
+  }
+}
+
 const getUsersWithSpecificHMO = (id) => {
   if (dbOption === "mongo") {
     return usersServiceMongo.getAllUsersWithSpecificHMO(id);
@@ -55,6 +61,7 @@ module.exports = {
   getUserByEmail,
   getAllUsers,
   getUserById,
+  getUserFullNameById,
   getUsersWithSpecificHMO,
   updateUser,
   changeDoctorStatusById,

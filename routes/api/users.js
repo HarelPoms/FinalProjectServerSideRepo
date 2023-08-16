@@ -18,9 +18,16 @@ router.get("/", loggedInMiddleware, permissionsMiddleware(false, true, false, fa
     res.status(200).json(allUsers);
 });
 
+router.get("/fullNameOfUser/:id", loggedInMiddleware, async(req,res,next)=>{
+    let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let usersFullName = await usersServiceModel.getUserFullNameById(req.params.id);
+    finalCheck(res, usersFullName, 404, "Full Name of User not found");
+})
+
 //Get specific user, authorization : Admin or registered user, Return : User
 //Temporarily removed perms middleware to check, readd later if possible
-router.get("/:id", loggedInMiddleware, async (req, res, next) => {
+router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, false, false, true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let wantedUser = await usersServiceModel.getUserById(req.params.id);

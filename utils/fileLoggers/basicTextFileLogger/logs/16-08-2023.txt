@@ -34,3 +34,11 @@ Wednesday 16/8/2023 16:01:43 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 4
 Wednesday 16/8/2023 16:01:53 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 10.818 ms
 Wednesday 16/8/2023 16:09:27 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 51.952 ms
 Wednesday 16/8/2023 16:10:23 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 79.875 ms
+Wednesday 16/8/2023 16:35:38 GMT+03:00 Asia/Jerusalem GET /api/users/64dcc22f3ce0b370b413b6b6 401 18.484 ms
+Wednesday 16/8/2023 16:35:38 GMT+03:00 Asia/Jerusalem GET /api/users/64dcc22f3ce0b370b413b6b6 401 99.555 ms
+Wednesday 16/8/2023 16:37:14 GMT+03:00 Asia/Jerusalem GET /api/users/64dcc22f3ce0b370b413b6b6 401 13.172 ms
+Wednesday 16/8/2023 16:57:31 GMT+03:00 Asia/Jerusalem GET /api/users/fullNameOfUser/64dcc22f3ce0b370b413b6b6 404 85.357 ms
+Wednesday 16/8/2023 16:57:54 GMT+03:00 Asia/Jerusalem GET /api/users/fullNameOfUser/64dcc22f3ce0b370b413b6b6 404 2.350 ms
+Wednesday 16/8/2023 17:00:08 GMT+03:00 Asia/Jerusalem GET /api/users/fullNameOfUser/64dcc22f3ce0b370b413b6b6 404 2.915 ms
+Wednesday 16/8/2023 17:00:50 GMT+03:00 Asia/Jerusalem GET /api/users/fullNameOfUser/64dcc22f3ce0b370b413b6b6 404 4.284 ms
+Wednesday 16/8/2023 17:01:22 GMT+03:00 Asia/Jerusalem GET /api/users/fullNameOfUser/64dcc22f3ce0b370b413b6b6 404 6.394 ms

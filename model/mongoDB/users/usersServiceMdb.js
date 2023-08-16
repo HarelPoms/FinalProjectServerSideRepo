@@ -21,6 +21,10 @@ const getUserById = (id) => {
   return User.findById(id);
 }
 
+const getUserFullNameOnly = (id) => {
+  return User.findById(id, 'name');
+}
+
 const updateUser = (id, userToUpdate) => {
   return User.findByIdAndUpdate(id, userToUpdate, {new: true});
 };
@@ -40,6 +44,7 @@ module.exports = {
   getAllUsers,
   getAllUsersWithSpecificHMO,
   getUserById,
+  getUserFullNameOnly,
   updateUser,
   changeDoctorStatusById,
   deleteUserById
