@@ -47,7 +47,7 @@ const userCheckIfTheSameUser = async (loggedInUserId, idOfUserDataToAccess, res,
   isPharmaOwner = is pharma owner of medicine
   isSameUserApiCheck = To check if the user requesting access to user data, is the same user
 */
-const permissionsMiddleware = (isDoctor, isAdmin, isPharmaOwner, isSameUserApiCheck) => {
+const permissionsMiddleware = (isDoctor, isAdmin, isPharmaOwner, isSameUserApiCheck, isPharma) => {
   return (req, res, next) => {
     if (!req.userData) {
       throw new CustomError("must provide userData");
@@ -63,6 +63,9 @@ const permissionsMiddleware = (isDoctor, isAdmin, isPharmaOwner, isSameUserApiCh
     }
     if (isSameUserApiCheck === true){
       return userCheckIfTheSameUser(req.userData._id, req.params.id, res, next);
+    }
+    if (req.userData.isPharma === isPharma && isPharma === true){
+      return next();
     }
     res.status(401).json({ msg: "You are not allowed to modify this asset" });
   };

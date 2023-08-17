@@ -25,7 +25,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //Create new HMO, authorization : Admin User, Return : The new HMO
-router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false) ,async (req,res, next) => {
+router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false) ,async (req,res, next) => {
     let newHMOBodyTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmoCreationValidation, req.body);
     if(!newHMOBodyTest[0]) return next(new CustomError(400,newHMOBodyTest[1]));
     const newHmo = await hmoServiceModel.createHMO(req.body);
@@ -33,7 +33,7 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, f
 });
 
 //Edit HMO, authorization : Admin, Return : The edited HMO
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmoCreationValidation, req.body);
@@ -43,7 +43,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
 });
 
 //Delete HMO, Authorization : Admin, return : The Deleted HMO
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res, next) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(hmoValidationService.hmosIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let prescriptionsWithThisHmo = await prescriptionsServiceModel.getPrescriptionsWithSpecificHMO(req.params.id);

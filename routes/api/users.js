@@ -13,7 +13,7 @@ const finalCheck = require("../../utils/finalResponseChecker");
 const initialValidationService = require("../../utils/initialValidationCheckers");
 
 //Get all users, authorization : Admin, Return : array of users
-router.get("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res) => {
+router.get("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req, res) => {
     const allUsers = await usersServiceModel.getAllUsers();
     res.status(200).json(allUsers);
 });
@@ -27,7 +27,7 @@ router.get("/fullNameOfUser/:id", loggedInMiddleware, async(req,res,next)=>{
 
 //Get specific user, authorization : Admin or registered user, Return : User
 //Temporarily removed perms middleware to check, readd later if possible
-router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, false, false, true), async (req, res, next) => {
+router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, false, false, true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let wantedUser = await usersServiceModel.getUserById(req.params.id);
@@ -70,7 +70,7 @@ router.post("/login", async (req,res, next) =>{
 })
 
 //Edit user, authorization : The registered user, Return : The edited user
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false, true), async (req, res, next) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false, true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(usersValidationService.profileUserValidation, req.body);
@@ -88,7 +88,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, false
 })
 
 //Change is Doctor status, authorization : The registered user, Return : The User
-router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true), async (req, res, next) => {
+router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let doctorStatusUpdateResult = await usersServiceModel.changeDoctorStatusById(req.params.id);
@@ -96,7 +96,7 @@ router.patch("/:id", loggedInMiddleware, permissionsMiddleware(false,true,false,
 })
 
 //Delete User, Authorization : The registered User or Admin, return : The Deleted User
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true), async (req, res, next) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, true, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let prescriptionsOfPatient = await prescriptionServiceModel.getPrescriptionsByPatient(req.params.id);

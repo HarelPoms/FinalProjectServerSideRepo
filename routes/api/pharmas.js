@@ -11,6 +11,8 @@ const permissionsMiddleware = require("../../middlewares/permissionsMiddleware")
 const CustomError = require("../../utils/CustomError");
 const finalCheck = require("../../utils/finalResponseChecker");
 const initialValidationService = require("../../utils/initialValidationCheckers");
+const hashService = require("../../utils/hash/hashService");
+const { generateToken } = require("../../utils/token/tokenService");
 
 //Get all pharmas, authorization : all, return : All Pharmas
 router.get("/", async (req, res) => {
@@ -32,7 +34,7 @@ router.get("/my-medicines", loggedInMiddleware, async (req,res,next) => {
 });
 
 //Create new pharma, authorization : Admin User, Return : The new pharma
-router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req,res,next) => {
+router.post("/", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req,res,next) => {
     let newBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.newPharmaValidation, req.body);
     if(!newBodyTest[0]) return next(new CustomError(400,newBodyTest[1]));
     let normalizedPharma = await pharmaNormalizationService.normalizationCreatePharmaService(req.body);
@@ -64,7 +66,7 @@ router.post("/login", async (req,res,next) =>{
 })
 
 //Edit pharma, authorization : The admin, Return : The edited pharma
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res,next) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req, res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(pharmaValidationService.editPharmaValidation, req.body);
@@ -75,7 +77,7 @@ router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false,
 })
 
 //Delete pharma, Authorization : Admin, return : The Deleted pharma
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false), async (req, res,next) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, false, false, false), async (req, res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]))
     const medicinesOfPharma = await medicineServiceModel.getMedicinesCreatedByUser(req.params.id);

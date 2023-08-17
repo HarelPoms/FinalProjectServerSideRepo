@@ -30,7 +30,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //Create new medicine, authorization : Pharma User, Return : The new medicine
-router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, true, false),  async (req,res, next) => {
+router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, false, false, true),  async (req,res, next) => {
     let newMedicineBodyTest = await initialValidationService.initialJoiValidation(medicineValidationService.createMedicineValidation, req.body);
     if(!newMedicineBodyTest[0]) return next(new CustomError(400,newMedicineBodyTest[1]));
     let normalMedicine = await medicineNormalizationService(req.body, req.userData._id);
@@ -39,7 +39,7 @@ router.post("/", loggedInMiddleware, permissionsMiddleware(false, false, true, f
 });
 
 //Edit medicine, authorization : User who created the medicine, Return : The edited medicine
-router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, true, false), async (req, res, next) => {
+router.put("/:id", loggedInMiddleware, permissionsMiddleware(false, false, true, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let editBodyTest = await initialValidationService.initialJoiValidation(medicineValidationService.editMedicineValidation, req.body);
@@ -75,7 +75,7 @@ router.patch("/:id", loggedInMiddleware, async (req, res, next) => {
 })
 
 //Delete medicine, Authorization : The User who created the medicine, or admin, return : The Deleted medicine
-router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, true, false), async (req, res, next) => {
+router.delete("/:id", loggedInMiddleware, permissionsMiddleware(false, true, true, false, false), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(medicineValidationService.medicineIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const medicineFromDB = await medicineServiceModel.deleteMedicine(req.params.id);
