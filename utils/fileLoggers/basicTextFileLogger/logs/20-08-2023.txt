@@ -1,0 +1,5 @@
+Sunday 20/8/2023 10:59:54 GMT+03:00 Asia/Jerusalem GET /api/pharmas/my-medicines 400 28.553 ms
+Sunday 20/8/2023 11:01:30 GMT+03:00 Asia/Jerusalem GET /api/pharmas/my-medicines 400 6.568 ms
+Sunday 20/8/2023 11:02:22 GMT+03:00 Asia/Jerusalem GET /api/pharmas/my-medicines 400 16.109 ms
+Sunday 20/8/2023 11:04:01 GMT+03:00 Asia/Jerusalem GET /api/pharmas/my-medicines 400 6.380 ms
+Sunday 20/8/2023 11:40:09 GMT+03:00 Asia/Jerusalem GET /api/pharmas/my-medicines 400 12.311 ms

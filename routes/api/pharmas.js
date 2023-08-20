@@ -20,17 +20,17 @@ router.get("/", async (req, res) => {
     res.status(200).json(allPharmas);
 });
 
+router.get("/my-medicines", loggedInMiddleware, permissionsMiddleware(false, false, false, false, true), async (req,res,next) => {
+    const medicinesFromDBOfPharma = await medicineServiceModel.getMedicinesCreatedByUser(req.userData._id);
+    finalCheck(res, medicinesFromDBOfPharma, 500, "Medicines of pharma not found");
+});
+
 //Get pharma by id, authorization : all, Return : The pharma
 router.get("/:id", async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(userValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     const pharmaFromDB = await pharmaServiceModel.getPharmaById(req.params.id);
     finalCheck(res, pharmaFromDB, 400, "Pharma to get not found");
-});
-
-router.get("/my-medicines", loggedInMiddleware, async (req,res,next) => {
-    const medicinesFromDBOfPharma = await medicineServiceModel.getMedicinesCreatedByUser(req.userData._id);
-    finalCheck(res, medicinesFromDBOfPharma, 500, "Medicines of pharma not found");
 });
 
 //Create new pharma, authorization : Admin User, Return : The new pharma
