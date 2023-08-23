@@ -5,3 +5,4 @@ Wednesday 23/8/2023 12:08:02 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 4
 Wednesday 23/8/2023 12:13:34 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 5.728 ms
 Wednesday 23/8/2023 12:17:58 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 38.538 ms
 Wednesday 23/8/2023 12:58:24 GMT+03:00 Asia/Jerusalem PATCH /api/flipApproved/64e5bd77a1dfc4010a0406df 404 0.514 ms
+Wednesday 23/8/2023 15:28:36 GMT+03:00 Asia/Jerusalem POST /api/users/login 400 147.139 ms

@@ -23,7 +23,21 @@ router.get("/fullNameOfUser/:id", loggedInMiddleware, async(req,res,next)=>{
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let usersFullName = await usersServiceModel.getUserFullNameById(req.params.id);
     finalCheck(res, usersFullName, 404, "Full Name of User not found");
-})
+});
+
+router.get("/my-patients/", loggedInMiddleware, permissionsMiddleware(true, false, false, false), async (req, res, next) => {
+    let patientsDetails = [];
+    let patientIds = [];
+    let prescriptionsOfGivenDoctor = await prescriptionServiceModel.getPrescriptionsByDoctor(req.userData._id);
+    for(let prescription of prescriptionsOfGivenDoctor){
+        if(!patientIds.includes(prescription.patientId + "")){
+            let currPatient = await usersServiceModel.getUserById(prescription.patientId);
+            patientsDetails.push({name: currPatient.name, phone: currPatient.phone, email: currPatient.email, image: currPatient.image, HMO: currPatient.HMO, createdAt: currPatient.createdAt});
+            patientIds.push(prescription.patientId + "");
+        }
+    }
+    res.status(200).json(patientsDetails);
+});
 
 //Get specific user, authorization : Admin or registered user, Return : User
 //Temporarily removed perms middleware to check, readd later if possible
