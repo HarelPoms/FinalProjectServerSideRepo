@@ -26,12 +26,12 @@ router.get("/my-prescriptions", loggedInMiddleware, async (req,res) =>{
         myPrescriptions = await prescriptionServiceModel.getPrescriptionsByPatient(req.userData._id);
     }
     finalCheck(res, myPrescriptions, 400, "My Prescriptions to get not found");
-})
+});
 
 router.get("/unassigned-prescriptions", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, false, false, false), async (req,res,next) => {
     let unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor(null);;
     finalCheck(res, unassignedPrescriptions, 400, "Unassigned Prescriptions to get not found");
-})
+});
 
 //Get prescription by id, authorization : all, Return : The prescription
 router.get("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, true, true, true), async (req, res,next) => {
@@ -52,6 +52,18 @@ router.post("/", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, fa
     finalCheck(res, newPrescription, 500, "Prescription not created");
 });
 
+router.put("/assumeResponsibility/:id",loggedInMiddleware, prescriptionsPermissionsMiddleware(true, false, false, false), async (req,res,next) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let editBodyTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionResponsibilityValidation, req.body);
+    if(!editBodyTest[0]) return next(new CustomError(400, editBodyTest[1]));
+    let prescriptionExistenceCheck = await prescriptionServiceModel.getPrescriptionById(req.params.id);
+    if(!prescriptionExistenceCheck) return next(new CustomError(400, "No Prescription with this id exists"));
+    if(prescriptionExistenceCheck.doctorId != null) return next(new CustomError(400, "This prescription is already assigned to a doctor"));
+    let editResult = await prescriptionServiceModel.updatePrescription(req.params.id, req.body);
+    finalCheck(res, editResult, 400, "Prescription to edit not found");
+});
+
 //Edit prescription, authorization : Doctor who is in charge of it, Return : The edited prescription
 router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, false, true), async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
@@ -65,6 +77,14 @@ router.put("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,
     finalCheck(res, editResult, 400, "Prescription to edit not found");
 });
 
+//flip isApproved status of prescription
+router.patch("/flipApproved/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, false, true), async(req,res,next) => {
+    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
+    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
+    let statusSwitchResult = await prescriptionServiceModel.changePrescriptionApprovedStatusById(req.params.id);
+    finalCheck(res, statusSwitchResult, 400, "Prescription approved status not flipped");
+});
+
 //Flip isActive status of prescription
 router.patch("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async(req,res,next) => {
     let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
@@ -72,14 +92,6 @@ router.patch("/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(fals
     let statusSwitchResult = await prescriptionServiceModel.changePrescriptionActiveStatusById(req.params.id);
     finalCheck(res, statusSwitchResult, 400, "Prescription active status not flipped");
 });
-
-//flip isApproved status of prescription
-router.patch("/flipApproved/:id", loggedInMiddleware, prescriptionsPermissionsMiddleware(false, false, false, true), async(req,res,next) => {
-    let idTest = await initialValidationService.initialJoiValidation(prescriptionValidationService.PrescriptionIdValidation, req.params.id);
-    if(!idTest[0]) return next(new CustomError(400, idTest[1]));
-    let statusSwitchResult = await prescriptionServiceModel.changePrescriptionApprovedStatusById(req.params.id);
-    finalCheck(res, statusSwitchResult, 400, "Prescription approved status not flipped");
-})
 
 //Flip isActive status of subitem within a prescription
 router.patch("/:id/:subItemId", loggedInMiddleware, prescriptionsPermissionsMiddleware(false,false,false,true), async (req,res,next) => {

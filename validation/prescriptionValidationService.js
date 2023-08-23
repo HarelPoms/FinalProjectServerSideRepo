@@ -23,7 +23,14 @@ const PrescriptionIdValidation = (userInput) => {
     throw new Error("validator undefined");
 }
 
+const PrescriptionResponsibilityValidation = (userInput) => {
+    if (validatorOption === "Joi") {
+        return joiPrescriptionsValidation.validatePrescriptionResponsibilitySchema(userInput);
+    }
+    throw new Error("validator undefined");
+}
+
 module.exports = {
     createPrescriptionValidation, editPrescriptionValidation,
-    PrescriptionIdValidation
+    PrescriptionIdValidation, PrescriptionResponsibilityValidation
 };

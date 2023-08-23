@@ -1,0 +1,2 @@
+Tuesday 22/8/2023 13:14:46 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 50.171 ms
+Tuesday 22/8/2023 18:45:14 GMT+03:00 Asia/Jerusalem PUT /api/prescriptions/64e345ad206adaeaf740a989 401 18.175 ms

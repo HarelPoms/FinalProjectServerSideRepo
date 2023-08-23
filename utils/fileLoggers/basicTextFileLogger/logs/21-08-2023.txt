@@ -1,0 +1,4 @@
+Monday 21/8/2023 13:45:33 GMT+03:00 Asia/Jerusalem POST /api/medicines/ 401 7.535 ms
+Monday 21/8/2023 13:46:12 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 13.589 ms
+Monday 21/8/2023 14:02:28 GMT+03:00 Asia/Jerusalem GET /main.3ea6618d89d7c36c6f41.hot-update.json 404 2.433 ms
+Monday 21/8/2023 17:32:35 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 13.256 ms

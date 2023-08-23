@@ -11,8 +11,8 @@ const createPrescriptionSchema = Joi.object({
     image: Joi.object().keys({
         url: Joi.string().regex(
         new RegExp(
-            /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/)),
-        alt: Joi.string().min(2).max(256).required(),
+            /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/)).allow(""),
+        alt: Joi.string().min(2).max(256).required().allow(""),
     }),
     medicineList: Joi.array().items(prescriptionSubItemJoiSchema),
     patientId: Joi.string().hex().length(24).required(),
@@ -25,7 +25,7 @@ const editPrescriptionSchema = Joi.object({
     image: Joi.object().keys({
         url: Joi.string().regex(
         new RegExp(
-            /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/)),
+            /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/)).allow(""),
         alt: Joi.string().min(2).max(256).required(),
     }),
     medicineList: Joi.array().items(prescriptionSubItemJoiSchema),
@@ -34,6 +34,10 @@ const editPrescriptionSchema = Joi.object({
     expiryDate: Joi.date().format('YYYY-MM-DD HH:mm'),
     HMO: Joi.string().hex().length(24),
     isActive: Joi.boolean()
+});
+
+const prescriptionDoctorIdSchema = Joi.object({
+    doctorId: Joi.string().hex().length(24).required()
 });
 
 const prescriptionIdSchema = Joi.string().hex().length(24).required();
@@ -50,6 +54,11 @@ const validatePrescriptionIdSchema = (userInput) => {
     return prescriptionIdSchema.validateAsync(userInput);
 }
 
+const validatePrescriptionResponsibilitySchema = (userInput) => {
+    return prescriptionDoctorIdSchema.validateAsync(userInput);
+}
+
 module.exports = {
-    validateCreatePrescriptionSchema, validateEditPrescriptionSchema, validatePrescriptionIdSchema
+    validateCreatePrescriptionSchema, validateEditPrescriptionSchema, validatePrescriptionIdSchema,
+    validatePrescriptionResponsibilitySchema
 };

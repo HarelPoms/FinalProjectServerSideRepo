@@ -1,0 +1,7 @@
+Wednesday 23/8/2023 10:55:39 GMT+03:00 Asia/Jerusalem PUT /api/prescriptions/assumeResponsibility/64e345ad206adaeaf740a989 500 49.090 ms
+Wednesday 23/8/2023 10:56:32 GMT+03:00 Asia/Jerusalem PUT /api/prescriptions/assumeResponsibility/64e345ad206adaeaf740a989 400 41.216 ms
+Wednesday 23/8/2023 12:07:15 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 9.388 ms
+Wednesday 23/8/2023 12:08:02 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 33.794 ms
+Wednesday 23/8/2023 12:13:34 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 5.728 ms
+Wednesday 23/8/2023 12:17:58 GMT+03:00 Asia/Jerusalem POST /api/prescriptions/ 400 38.538 ms
+Wednesday 23/8/2023 12:58:24 GMT+03:00 Asia/Jerusalem PATCH /api/flipApproved/64e5bd77a1dfc4010a0406df 404 0.514 ms
