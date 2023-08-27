@@ -41,7 +41,7 @@ router.get("/my-patients/", loggedInMiddleware, permissionsMiddleware(true, fals
 
 //Get specific user, authorization : Admin or registered user, Return : User
 //Temporarily removed perms middleware to check, readd later if possible
-router.get("/:id", loggedInMiddleware, permissionsMiddleware(true, false, false, true, false), async (req, res, next) => {
+router.get("/:id", loggedInMiddleware, async (req, res, next) => {
     let idTest = await initialValidationService.initialJoiValidation(usersValidationService.userIdValidation, req.params.id);
     if(!idTest[0]) return next(new CustomError(400, idTest[1]));
     let wantedUser = await usersServiceModel.getUserById(req.params.id);

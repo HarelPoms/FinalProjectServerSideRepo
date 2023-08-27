@@ -1,0 +1,6 @@
+Sunday 27/8/2023 11:34:15 GMT+03:00 Asia/Jerusalem GET /api/users/64dcc22f3ce0b370b413b6b6 401 4.096 ms
+Sunday 27/8/2023 11:35:07 GMT+03:00 Asia/Jerusalem GET /api/users/64dcc22f3ce0b370b413b6b6 401 4.003 ms
+Sunday 27/8/2023 11:48:47 GMT+03:00 Asia/Jerusalem GET /api/users/null 400 12.113 ms
+Sunday 27/8/2023 11:48:47 GMT+03:00 Asia/Jerusalem GET /api/users/null 400 6.241 ms
+Sunday 27/8/2023 11:59:44 GMT+03:00 Asia/Jerusalem GET /api/users/null 400 6.462 ms
+Sunday 27/8/2023 11:59:44 GMT+03:00 Asia/Jerusalem GET /api/users/null 400 5.412 ms
