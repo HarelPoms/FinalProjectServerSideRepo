@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const createMedicineTemplate = {
-  title: Joi.string().min(2).max(256).required(),
+  name: Joi.string().min(2).max(256).required(),
   subTitle: Joi.string().min(2).max(256).required(),
   description: Joi.string().min(2).max(1024).required(),
   web: Joi.string()

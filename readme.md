@@ -461,7 +461,7 @@ Response :
 ``` bash http 
     The body of the request must contain a bare minimum template to create a card, for example:
     {
-    "title": "Aspirin",
+    "name": "Aspirin",
     "subTitle": "Over the counter medicine",
     "description": "For headaches"
   }
@@ -469,7 +469,7 @@ Response :
 
 ``` bash 
 Full template for medicine creation
-title:
+name:
     -- String
     -- required
     -- minLength 2

@@ -17,9 +17,9 @@ const pharmasData = require("./pharmas.json");
 const generatePrescription = async (medicine, patient, doctor, hmo) => {
   let prescription = {
     medicineList: [
-      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true},
-      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true},
-      {medicineId: medicine.medicineNumber, medicineName: medicine.title, medicineUnits: 1, isActive: true}
+      {medicineId: medicine.medicineNumber, medicineName: medicine.name, medicineUnits: 1, isActive: true},
+      {medicineId: medicine.medicineNumber, medicineName: medicine.name, medicineUnits: 1, isActive: true},
+      {medicineId: medicine.medicineNumber, medicineName: medicine.name, medicineUnits: 1, isActive: true}
     ],
     patientId: patient._id + "",
     doctorId: doctor._id + "" ,
