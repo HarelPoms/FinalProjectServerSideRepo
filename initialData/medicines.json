@@ -2,16 +2,19 @@
     {
         "name": "Aspirin",
         "subTitle": "Over the counter medicine",
-        "description": "For Headaches"
+        "description": "For Headaches",
+        "price": 20
     },
     {
         "name": "Acomol",
         "subTitle": "Over the counter medicine",
-        "description": "For sore throat"
+        "description": "For sore throat",
+        "price": 30
     },
     {
         "name": "Symbicort",
         "subTitle": "Prescription required",
-        "description": "For daily use for Asthma treatment"
+        "description": "For daily use for Asthma treatment",
+        "price": 50
     }
 ]

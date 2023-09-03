@@ -3,6 +3,7 @@ const createMedicineTemplate = {
   name: Joi.string().min(2).max(256).required(),
   subTitle: Joi.string().min(2).max(256).required(),
   description: Joi.string().min(2).max(1024).required(),
+  price: Joi.number().min(10).max(999).required(),
   web: Joi.string()
     .regex(
       new RegExp(

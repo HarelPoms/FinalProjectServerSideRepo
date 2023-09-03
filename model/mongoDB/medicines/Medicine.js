@@ -10,6 +10,7 @@ const medicineSchema = new mongoose.Schema({
   name: DEFAULT_STRING_SCHEMA_REQUIRED,
   subTitle: DEFAULT_STRING_SCHEMA_REQUIRED,
   description: { ...DEFAULT_STRING_SCHEMA_REQUIRED, maxLength: 1024 },
+  price: {type:Number, minLength:2, maxLength:3, required:true},
   web: URL,
   image: Image,
   medicineNumber: {
