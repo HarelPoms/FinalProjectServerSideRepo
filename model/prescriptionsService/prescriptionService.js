@@ -32,6 +32,12 @@ const getPrescriptionsByDoctor = (id) => {
     }
 };
 
+const getUnassignedPrescriptionsOfSpecificHMO = (id) => {
+    if (dbOption === "mongo") {
+        return prescriptionServiceMongo.getUnassignedPrescriptionsOfSpecificHMO(id);
+    }
+}
+
 const changePrescriptionActiveStatusById = (id) => {
     if (dbOption === "mongo") {
         return prescriptionServiceMongo.changeActiveStatusById(id);
@@ -86,6 +92,7 @@ module.exports = {
     getPrescriptionById,
     getPrescriptionsByPatient,
     getPrescriptionsByDoctor,
+    getUnassignedPrescriptionsOfSpecificHMO,
     getPrescriptionWithSubItem,
     getPrescriptionsWithSpecificHMO,
     removeSubItemFromPrescription,

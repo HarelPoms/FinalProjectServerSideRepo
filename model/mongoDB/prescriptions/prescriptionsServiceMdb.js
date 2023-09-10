@@ -21,6 +21,10 @@ const getPrescriptionsOfSpecificDoctor = (id) => {
     return Prescription.find({doctorId: id});
 }
 
+const getUnassignedPrescriptionsOfSpecificHMO = (id) => {
+    return Prescription.find({$and: [{doctorId: null}, {HMO: id}]});
+}
+
 const getPrescriptionWithSubItem = (subItemId) => {
     return Prescription.findOne({ medicineList: { $elemMatch: { _id: subItemId } } }, { "medicineList.$": 1 });
 };
@@ -70,6 +74,7 @@ module.exports = {
     getPrescriptionById,
     getPrescriptionsOfSpecificPatient,
     getPrescriptionsOfSpecificDoctor,
+    getUnassignedPrescriptionsOfSpecificHMO,
     getPrescriptionWithSubItem,
     getPrescriptionsWithSpecificHMO,
     updatePrescription,
