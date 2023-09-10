@@ -29,7 +29,7 @@ router.get("/my-prescriptions", loggedInMiddleware, async (req,res) =>{
 });
 
 router.get("/unassigned-prescriptions", loggedInMiddleware, prescriptionsPermissionsMiddleware(true, false, false, false), async (req,res,next) => {
-    let unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor(null);;
+    let unassignedPrescriptions = await prescriptionServiceModel.getPrescriptionsByDoctor(null);
     finalCheck(res, unassignedPrescriptions, 400, "Unassigned Prescriptions to get not found");
 });
 
