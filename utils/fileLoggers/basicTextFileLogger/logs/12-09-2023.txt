@@ -1,0 +1,2 @@
+Tuesday 12/9/2023 14:25:13 GMT+03:00 Asia/Jerusalem GET /main.56984346a7fd1fb85827.hot-update.json 404 3.809 ms
+Tuesday 12/9/2023 14:32:46 GMT+03:00 Asia/Jerusalem POST /api/users/login 400 6.270 ms

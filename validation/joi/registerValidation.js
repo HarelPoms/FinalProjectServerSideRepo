@@ -19,7 +19,7 @@ const registerSchema = Joi.object({
   password: Joi.string()
     .regex(
       new RegExp(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d.*\d.*\d)(?=.*[!@#$%^&*_\\-])[A-Za-z\d!@#$%^&*_\\-]{8,}$/
       )
     )
     .required(),
